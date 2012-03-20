@@ -1,22 +1,7 @@
-var main = null,
-    fnGetOption = null;
+var main = null;
 
 YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) {
     var Select = Y.Icello.NodeUtil.Select;
-    
-    fnGetOption = function (item) {
-         var template = '<option value="{value}">{text}</option>',
-             sub = Y.Lang.sub,
-             html = sub(template, item);
-             option = Y.Node.create(html);
-            
-            if (item.selected) {
-                option.set(SELECTED, true);
-            }
-            
-            return option;
-    };
-    
     
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
@@ -24,13 +9,12 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
         function Main() {
             Y.log('', 'info', 'Main');
             
-            /*
             this.input = {
                 ddl: new Select({
-                    inputNode:'#ddl'
-                });
+                    srcNode:'#ddl'
+                })
             };
-            */
+            
         };
         Main.prototype = {
             render: function() {
@@ -38,7 +22,7 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
                 this.bindUI();
             },
             renderUI: function() {
-                //this.ddl.render();
+                this.input.ddl.render();
             },
             bindUI: function() {
             
