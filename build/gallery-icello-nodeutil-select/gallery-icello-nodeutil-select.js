@@ -5,7 +5,9 @@ YUI.add('gallery-icello-nodeutil-select', function(Y) {
 * @module icello-nodeutil-select
 */
 var CB = 'contentBox',
+    ITEMS = 'items',
     NAME = 'icello-nodeutil-select';
+    OPTION = 'option',
     OPTION_CHECKED = 'option:checked',
     SELECTED = 'selected',
     SRC_NODE = 'srcNode',
@@ -31,16 +33,18 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         },
         destructor: function () {
         },
-        renderUI: function() {
-            
+        render: function () {
+            var that = this;
+            Y.Array.each(this.get(ITEMS), function (item) {
+                that.append(item);
+            });
         },
         /** 
         * @method append
         * @param {Object} item object literal with this properties: text, value, selected (Boolean)
         */
         append: function(item) {
-            var cb = this.get(CB),
-                template = '<option value="{value}">{text}</option>',
+            var template = '<option value="{value}">{text}</option>',
                 html = null,
                 option = null,
                 srcNode = this.get(SRC_NODE);
@@ -64,6 +68,18 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             }
             
             srcNode.append(option);
+        },
+        getOptionSelected: function() {
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.one(OPTION_CHECKED);
+        },
+        size: function () {
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.all(OPTION).size();
+        },
+        sizeSelected: function () {
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.all(OPTION_CHECKED).size();
         }
     },
     {
@@ -72,7 +88,7 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 value: []
             },
             srcNode: {
-                getter: function (nodeOrId) {
+                setter: function (nodeOrId) {
                     if (typeof nodeOrId === 'string') {
                         return Y.one(nodeOrId);
                     } else {

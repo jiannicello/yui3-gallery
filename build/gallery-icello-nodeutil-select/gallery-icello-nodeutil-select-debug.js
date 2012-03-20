@@ -5,7 +5,9 @@ YUI.add('gallery-icello-nodeutil-select', function(Y) {
 * @module icello-nodeutil-select
 */
 var CB = 'contentBox',
+    ITEMS = 'items',
     NAME = 'icello-nodeutil-select';
+    OPTION = 'option',
     OPTION_CHECKED = 'option:checked',
     SELECTED = 'selected',
     SRC_NODE = 'srcNode',
@@ -33,8 +35,12 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         destructor: function () {
             Y.log('', 'info', 'Select initializer');
         },
-        renderUI: function() {
-            
+        render: function () {
+            Y.log('', 'info', 'Select render');
+            var that = this;
+            Y.Array.each(this.get(ITEMS), function (item) {
+                that.append(item);
+            });
         },
         /** 
         * @method append
@@ -42,8 +48,7 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         */
         append: function(item) {
             Y.log('', 'info', 'Select append');
-            var cb = this.get(CB),
-                template = '<option value="{value}">{text}</option>',
+            var template = '<option value="{value}">{text}</option>',
                 html = null,
                 option = null,
                 srcNode = this.get(SRC_NODE);
@@ -67,6 +72,21 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             }
             
             srcNode.append(option);
+        },
+        getOptionSelected: function() {
+            Y.log('', 'info', 'Select getOptionSelected');
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.one(OPTION_CHECKED);
+        },
+        size: function () {
+            Y.log('', 'info', 'Select size');
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.all(OPTION).size();
+        },
+        sizeSelected: function () {
+            Y.log('', 'info', 'Select sizeSelected');
+            var srcNode = this.get(SRC_NODE);
+            return srcNode.all(OPTION_CHECKED).size();
         }
     },
     {
@@ -75,7 +95,8 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 value: []
             },
             srcNode: {
-                getter: function (nodeOrId) {
+                setter: function (nodeOrId) {
+                    Y.log(typeof nodeOrId, 'info', 'Select srcNode setter');
                     if (typeof nodeOrId === 'string') {
                         return Y.one(nodeOrId);
                     } else {
