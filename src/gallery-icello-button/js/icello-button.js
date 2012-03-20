@@ -332,7 +332,7 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 throw {
                     name: 'IconAndLabelNotDefinedButtonException',
-                    message: "icello Button _setViewType: either 'cssIcon' or 'label' must be defined"
+                    message: "Icello.Button _setViewType: either 'cssIcon' or 'label' must be defined"
                 };
             }
 
