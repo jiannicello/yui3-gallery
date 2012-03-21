@@ -8,8 +8,7 @@ YUI_config = {
                 'gallery-icello-button': {
                     skinnable: true,
                     requires: ['base-build', 'widget']
-                },
-                'gallery-icello-qunit-step': {}
+                }
             }
         }
     }

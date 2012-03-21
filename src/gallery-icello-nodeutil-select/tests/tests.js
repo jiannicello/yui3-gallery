@@ -1,4 +1,4 @@
-YUI().use('gallery-icello-nodeutil-select', 'gallery-icello-qunit-step', 'node-event-simulate', function (Y) {
+YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) {
     var Select = Y.Icello.NodeUtil.Select;
     
     Y.on('domready', function (e) {

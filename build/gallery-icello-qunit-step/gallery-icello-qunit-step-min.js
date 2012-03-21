@@ -1,1 +1,0 @@
-YUI.add("gallery-icello-qunit-step",function(a){QUnit.extend(QUnit,{step:function(c,b){if(this.config.current.step===undefined){this.config.current.step=0;}this.config.current.step++;if(typeof b=="undefined"){b="step "+c;}var d=this.config.current.step;QUnit.push(QUnit.equiv(d,c),d,c,b);}});if(window){window.step=function(c,b){QUnit.step(c,b);};}},"@VERSION@",{skinnable:false});

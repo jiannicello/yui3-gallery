@@ -1,4 +1,4 @@
-YUI().use('gallery-icello-button', 'gallery-icello-qunit-step', 'node-event-simulate', function (Y) {
+YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
         

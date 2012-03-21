@@ -1,5 +1,3 @@
-YUI.add('gallery-icello-qunit-step', function(Y) {
-
 QUnit.extend(QUnit, {
     step: function (expected, message) {
         if (this.config.current.step === undefined) {
@@ -19,6 +17,3 @@ if(window) {
         QUnit.step(expected, message);
     };
 }
-
-
-}, '@VERSION@' ,{skinnable:false});
