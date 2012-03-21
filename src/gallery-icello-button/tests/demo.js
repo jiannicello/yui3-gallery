@@ -1,9 +1,19 @@
 var main = null;
 
-YUI().use('gallery-icello-button', 'gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) {
+YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
     var Button = Y.Icello.Button,
-        Select = Y.Icello.NodeUtil.Select;
-    
+        appendOption = function (ddl, item) {
+			var option_str = Y.Lang.sub('<option value="{value}">{text}</option>', item),
+				option = Y.Node.create(option_str);
+
+			if (item.selected) {
+				option.set('selected', true);
+			}
+
+			ddl.append(option);
+		};
+		
+	
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
         
@@ -59,7 +69,7 @@ YUI().use('gallery-icello-button', 'gallery-icello-nodeutil-select', 'node-event
                     Y.log('no preventDefault call needed', 'info', 'Main _btnSearchHandler');
                 },
                 _ddlCssIconsChangeHandler: function (e) {
-                    var option = Select.getSelectedOption(e.target);
+                    var option = e.target.one('option:checked');
                     var v = option.get('value');
                     var t = option.getContent();
                     Y.log(t, 'info', 'Main _ddlCssIconsChangeHandler');
@@ -95,10 +105,10 @@ YUI().use('gallery-icello-button', 'gallery-icello-nodeutil-select', 'node-event
                     allButtonsTbl.append(allButtonsTblBody);
                     var allButtonsTr = null;
 
-                    Select.append(ddl, 'Please Select', '');
+                    appendOption(ddl, {text:'Please Select', value:''});
                     var i = 1;
                     Y.Object.each(Button.ICONS, function (value, name) {
-                        Select.append(ddl, name, value);
+                        appendOption(ddl, {text:name, value:value});
 
                         var btn = new Button({ icon: value });
                         var td = Y.Node.create('<td></td>');

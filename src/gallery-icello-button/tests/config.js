@@ -9,9 +9,6 @@ YUI_config = {
                     skinnable: true,
                     requires: ['base-build', 'widget']
                 },
-                'gallery-icello-nodeutil-select': {
-                    requires: ['node', 'selector-css3']
-                },
                 'gallery-icello-qunit-step': {}
             }
         }
