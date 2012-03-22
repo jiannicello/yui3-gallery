@@ -100,8 +100,14 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
     },
     {
         ATTRS: {
+            /** 
+            * @attribute items
+            * @type Array
+            * @default []
+            */
             items: {
-                value: []
+                value: [],
+                validator: Y.Lang.isArray
             },
             options: {}
         },
@@ -110,33 +116,6 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         }
     }
 );
-
-/*
-var Select = {};
-
-Select.append = function (ddl, txt, val, selectedVal) {
-    var option_str = Y.Lang.sub('<option value="{val}">{txt}</option>', { val: val, txt: txt }),
-        option = Y.Node.create(option_str);
-
-    if (selectedVal === val) {
-        option.set('selected', true);
-    }
-
-    ddl.append(option);
-};
-Select.getSelectedOption = function (ddl) {
-    return ddl.one('option:checked');
-};
-Select.getSelectedValue = function (ddl) {
-    var v = ddl.one('option:checked');
-
-    if (v) {
-        return v.get('value');
-    } else {
-        return null;
-    }
-};
-*/
 
 
 
