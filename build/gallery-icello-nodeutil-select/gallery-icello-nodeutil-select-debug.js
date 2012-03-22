@@ -6,11 +6,15 @@ YUI.add('gallery-icello-nodeutil-select', function(Y) {
 */
 var CB = 'contentBox',
     ITEMS = 'items',
-    NAME = 'icello-nodeutil-select';
+    NAME = 'icello-nodeutil-select',
     OPTION = 'option',
     OPTION_CHECKED = 'option:checked',
+    OPTIONS = 'options',
+    SELECT = 'select',
     SELECTED = 'selected',
     SRC_NODE = 'srcNode',
+    STRING = 'string',
+    TAG_NAME = 'tagName',
     Node = Y.Node,
     sub = Y.Lang.sub;
 
@@ -23,36 +27,48 @@ Y.namespace('Icello.NodeUtil');
 */
 Y.Icello.NodeUtil.Select = Y.Base.create(
     NAME,
-    Y.Base,
+    Y.Widget,
     [],
     {
         BOUNDING_TEMPLATE: '<select></select>',
         CONTENT_TEMPLATE: null,
         initializer: function () {
             Y.log('', 'info', 'Select initializer');
-            
         },
         destructor: function () {
             Y.log('', 'info', 'Select initializer');
         },
-        render: function () {
-            Y.log('', 'info', 'Select render');
-            var that = this;
-            Y.Array.each(this.get(ITEMS), function (item) {
+        renderUI: function () {
+            Y.log('', 'info', 'Select renderUI');
+
+            var that = this,
+                cb = this.get(CB),
+                options = this.get(OPTIONS),
+                items = this.get(ITEMS);
+
+
+            if (options) {
+                options.each(function (option) {
+                    cb.appendChild(option);
+                });
+            }
+
+            Y.Array.each(items, function (item) {
                 that.append(item);
             });
+
         },
         /** 
         * @method append
         * @param {Object} item object literal with this properties: text, value, selected (Boolean)
         */
-        append: function(item) {
-            Y.log('', 'info', 'Select append');
+        append: function (item) {
+            Y.log('', 'info', 'Select appendItem');
             var template = '<option value="{value}">{text}</option>',
                 html = null,
                 option = null,
-                srcNode = this.get(SRC_NODE);
-            
+                cb = this.get(CB);
+
             if (item.text && !item.value) {
                 item.value = item.text;
             } else if (item.value && !item.text) {
@@ -63,30 +79,30 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                     message: "Icello.NodeUtil.Select append: at least 'text' or 'value' must be defined in paramter 'item'"
                 };
             }
-            
+
             html = sub(template, item);
             option = Node.create(html);
-            
+
             if (item.selected) {
                 option.set(SELECTED, true);
             }
-            
-            srcNode.append(option);
+
+            cb.append(option);
         },
-        getOptionSelected: function() {
+        getOptionSelected: function () {
             Y.log('', 'info', 'Select getOptionSelected');
-            var srcNode = this.get(SRC_NODE);
-            return srcNode.one(OPTION_CHECKED);
+            var cb = this.get(CB);
+            return cb.one(OPTION_CHECKED);
         },
         size: function () {
             Y.log('', 'info', 'Select size');
-            var srcNode = this.get(SRC_NODE);
-            return srcNode.all(OPTION).size();
+            var cb = this.get(CB);
+            return cb.all(OPTION).size();
         },
         sizeSelected: function () {
             Y.log('', 'info', 'Select sizeSelected');
-            var srcNode = this.get(SRC_NODE);
-            return srcNode.all(OPTION_CHECKED).size();
+            var cb = this.get(CB);
+            return cb.all(OPTION_CHECKED).size();
         }
     },
     {
@@ -94,16 +110,10 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             items: {
                 value: []
             },
-            srcNode: {
-                setter: function (nodeOrId) {
-                    Y.log(typeof nodeOrId, 'info', 'Select srcNode setter');
-                    if (typeof nodeOrId === 'string') {
-                        return Y.one(nodeOrId);
-                    } else {
-                        return nodeOrId;
-                    }
-                }
-            }
+            options: {}
+        },
+        HTML_PARSER: {
+            options: [OPTION]
         }
     }
 );
@@ -138,4 +148,5 @@ Select.getSelectedValue = function (ddl) {
 
 
 
-}, '@VERSION@' ,{skinnable:false, requires:['base-build', 'node']});
+
+}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:false});

@@ -33,13 +33,13 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
         test('render with 3 "items" should result in 3 option nodes', 5, function () {
             var option = null,
                 ddl = new Select({
-                srcNode:'#ddl',
-                items: [
-                    {text:'Yankees', value:'yanks'},
-                    {text:'Mets', value:'mets', selected:true},
-                    {text:'RedSox', value:'redsox'}
-                ]
-            });
+                    srcNode:'#ddl',
+                    items: [
+                        {text:'Yankees', value:'yanks'},
+                        {text:'Mets', value:'mets', selected:true},
+                        {text:'RedSox', value:'redsox'}
+                    ]
+                });
             
             equal(ddl.sizeSelected(), 0, 'sizeSelected() should return 0 before rendering');
             
