@@ -1,10 +1,6 @@
 YUI.add('gallery-icello-nodeutil-select', function(Y) {
 
-/**
-* helper Widget that makes working with Node wrapped 'select' element easier
-* @module icello-nodeutil-select
-*/
-var CB = 'contentBox',
+﻿var CB = 'contentBox',
     ITEMS = 'items',
     NAME = 'icello-nodeutil-select',
     OPTION = 'option',
@@ -17,9 +13,7 @@ var CB = 'contentBox',
     TAG_NAME = 'tagName',
     Node = Y.Node,
     sub = Y.Lang.sub;
-
 Y.namespace('Icello.NodeUtil');
-
 /**
 * @class Select
 * @constructor
@@ -37,23 +31,19 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         destructor: function () {
         },
         renderUI: function () {
-
             var that = this,
                 cb = this.get(CB),
                 options = this.get(OPTIONS),
                 items = this.get(ITEMS);
-
 
             if (options) {
                 options.each(function (option) {
                     cb.appendChild(option);
                 });
             }
-
             Y.Array.each(items, function (item) {
                 that.append(item);
             });
-
         },
         /** 
         * @method append
@@ -64,7 +54,6 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 html = null,
                 option = null,
                 cb = this.get(CB);
-
             if (item.text && !item.value) {
                 item.value = item.text;
             } else if (item.value && !item.text) {
@@ -75,14 +64,11 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                     message: "Icello.NodeUtil.Select append: at least 'text' or 'value' must be defined in paramter 'item'"
                 };
             }
-
             html = sub(template, item);
             option = Node.create(html);
-
             if (item.selected) {
                 option.set(SELECTED, true);
             }
-
             cb.append(option);
         },
         getOptionSelected: function () {
@@ -116,7 +102,6 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         }
     }
 );
-
 
 
 
