@@ -104,5 +104,4 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
 );
 
 
-
-}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:false});
+}, '@VERSION@' ,{skinnable:false, requires:['base-build', 'widget']});
