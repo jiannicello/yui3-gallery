@@ -47,6 +47,8 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             equal(ddl.sizeSelected(), 1, 'sizeSelected() should return 1 after rendering');
             equal(option.getContent(), 'Two', 'option.getContent() should return "Two"');
             equal(option.get('value'), '2', 'option.get("value") should return "two"');
+            
+            ddl.destroy();
         });
         test('rendering into div 3 items should result in size 3', 7, function () {
             var output = null,
@@ -69,54 +71,32 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             equal(ddl.sizeSelected(), 1, 'sizeSelected() should return 1 after rendering');
             equal(option.getContent(), 'Mets', 'option.getContent() should return "Mets"');
             equal(option.get('value'), 'mets', 'option.get("value") should return "mets"');
-        });
-        
-        
-        /*
-        test('calling append item should result in additional item', 1, function () {
             
+            ddl.destroy();
         });
-        */
-        /*
-        test('getSelectedValue should return "mets"', 1, function () {
-        
-        var selectedValue = 'mets';
-        
-        Select.append(ddl, 'Please Select', selectedValue);
-        
-        Select.append(ddl, 'Mets', 'mets', selectedValue);
-        
-        Select.append(ddl, 'Yanks', 'yanks', selectedValue);
-
-        
-        
-        equal(Select.getSelectedValue(ddl), selectedValue, '"getSelectedValue()" should return "mets"');
-
-        
-        ddl.empty();
+        module('append tests');
+        test('appending before and after render should affect node option count', 7, function () {
+            var ddl = new Select({
+                srcNode: '#ddl'
+            });
+            
+            step(1, 'step 1: append 3 items before rendering');
+            ddl.append({ text: 'Yankees', value: 'yanks' });
+            ddl.append({ text: 'Mets', value: 'mets', selected: true });
+            ddl.append({ text: 'RedSox', value: 'redsox' });
+            
+            ddl.render();
+            
+            equal(ddl.size(), 3, 'size() after render should be 3');
+            equal(ddl.getValueSelected(), 'mets', 'getValueSelected() should equal "mets"');
+            
+            step(2, 'step 2: append 1 item after rendering');
+            ddl.append({text:'Dodgers', value:'la', selected:true});
+            
+            equal(ddl.size(), 4, 'size() after last append should be 4');
+            equal(ddl.sizeSelected(), 1, 'sizeSelected() should remain 1');
+            equal(ddl.getValueSelected(), 'la', 'getValueSelected() should now return "la"');
         });
-        
-        test('getSelectedOption option.getContent should return "Mets"', 1, function () {
-        
-        var selectedValue = 'mets';
-        
-        Select.append(ddl, 'Please Select', selectedValue);
-        
-        Select.append(ddl, 'Mets', 'mets', selectedValue);
-        
-        Select.append(ddl, 'Yanks', 'yanks', selectedValue);
-
-        
-        var option = Select.getSelectedOption(ddl);
-
-        
-        equal(option.getContent(), 'Mets', '"getSelectedOption(ddl).getContent()" should equal "Mets"');
-
-        
-        ddl.empty();
-        });
-        
-        */
         
     });
 });

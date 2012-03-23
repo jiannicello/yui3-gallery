@@ -1,6 +1,6 @@
 YUI.add('gallery-icello-nodeutil-select', function(Y) {
 
-﻿var CB = 'contentBox',
+var CB = 'contentBox',
     ITEMS = 'items',
     NAME = 'icello-nodeutil-select',
     OPTION = 'option',
@@ -11,6 +11,7 @@ YUI.add('gallery-icello-nodeutil-select', function(Y) {
     SRC_NODE = 'srcNode',
     STRING = 'string',
     TAG_NAME = 'tagName',
+    VALUE = 'value',
     Node = Y.Node,
     sub = Y.Lang.sub;
 Y.namespace('Icello.NodeUtil');
@@ -74,6 +75,16 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         getOptionSelected: function () {
             var cb = this.get(CB);
             return cb.one(OPTION_CHECKED);
+        },
+        getValueSelected: function () {
+            var cb = this.get(CB);
+            var v = cb.one(OPTION_CHECKED);
+
+            if (v) {
+                return v.get(VALUE);
+            } else {
+                return null;
+            }
         },
         size: function () {
             var cb = this.get(CB);
