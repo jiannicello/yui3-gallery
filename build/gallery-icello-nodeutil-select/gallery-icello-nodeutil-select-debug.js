@@ -29,6 +29,11 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         CONTENT_TEMPLATE: null,
         initializer: function () {
             Y.log('', 'info', 'Select initializer');
+            this.on('change', Y.bind(function (e) {
+                Y.log('', 'info', 'Select change handler');
+                var optionSelected = this.getOptionSelected();
+                e.optionSelected = optionSelected;
+            }, this));
         },
         destructor: function () {
             Y.log('', 'info', 'Select initializer');
@@ -48,6 +53,14 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             Y.Array.each(items, function (item) {
                 that.append(item);
             });
+        },
+        bindUI: function () {
+            Y.log('', 'info', 'Select bindUI');
+        },
+        _defChangeFn: function (e) {
+            Y.log('', 'info', 'Select _defChangeFn');
+            console.dir(e);
+            
         },
         /** 
         * @method append
@@ -91,6 +104,13 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             } else {
                 return null;
             }
+        },
+        item: function (index) {
+            Y.log('', 'info', 'Select item');
+            var cb = this.get(CB),
+                options = cb.all(OPTION);
+            
+            return options.item(index);
         },
         size: function () {
             Y.log('', 'info', 'Select size');

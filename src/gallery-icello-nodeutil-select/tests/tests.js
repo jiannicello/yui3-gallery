@@ -74,6 +74,7 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             
             ddl.destroy();
         });
+        
         module('append tests');
         test('appending before and after render should affect node option count', 7, function () {
             var ddl = new Select({
@@ -96,6 +97,37 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             equal(ddl.size(), 4, 'size() after last append should be 4');
             equal(ddl.sizeSelected(), 1, 'sizeSelected() should remain 1');
             equal(ddl.getValueSelected(), 'la', 'getValueSelected() should now return "la"');
+        });
+        
+        module('change event tests');
+        test('changing the selected option should fire a "change" event', 6, function () {
+            var option = null,
+                ddl = new Select({
+                    srcNode: '#ddl',
+                    items: [
+                        {text:'One', value:'1'},
+                        {text:'Two', value:'2'},
+                        {text:'Three', value:'3'}
+                    ]
+                });
+            
+            ddl.on('change', function (e) {
+                step(4, 'step 4: confirm "change" event handler was called');
+                equal(e.optionSelected.get('value'), '3', '"e.optionSelected.get("value") should equal "3"');
+            });
+            
+            step(1, 'step 1: render 3 items with default selected value of first item');
+            ddl.render();
+            equal(ddl.getValueSelected(), '1', 'getValueSelected() should start of returning "1"');
+            
+            step(2, 'step 2: get last option, index 2 by calling "ddl.item(2)"');
+            option = ddl.item(2);
+            
+            step(3, 'step 3: simulate selecting this last option');
+            option.set('selected', true);
+            option.simulate('change');
+            
+            
         });
         
     });

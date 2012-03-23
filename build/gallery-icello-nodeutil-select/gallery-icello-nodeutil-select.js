@@ -28,6 +28,10 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         BOUNDING_TEMPLATE: '<select></select>',
         CONTENT_TEMPLATE: null,
         initializer: function () {
+            this.on('change', Y.bind(function (e) {
+                var optionSelected = this.getOptionSelected();
+                e.optionSelected = optionSelected;
+            }, this));
         },
         destructor: function () {
         },
@@ -45,6 +49,12 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             Y.Array.each(items, function (item) {
                 that.append(item);
             });
+        },
+        bindUI: function () {
+        },
+        _defChangeFn: function (e) {
+            console.dir(e);
+            
         },
         /** 
         * @method append
@@ -85,6 +95,12 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             } else {
                 return null;
             }
+        },
+        item: function (index) {
+            var cb = this.get(CB),
+                options = cb.all(OPTION);
+            
+            return options.item(index);
         },
         size: function () {
             var cb = this.get(CB);
