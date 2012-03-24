@@ -1,6 +1,7 @@
 var CB = 'contentBox',
     ITEMS = 'items',
     NAME = 'icello-nodeutil-select',
+	MULTIPLE = 'multiple',
     OPTION = 'option',
     OPTION_CHECKED = 'option:checked',
     OPTIONS = 'options',
@@ -83,10 +84,21 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             html = sub(template, item);
             option = Node.create(html);
             if (item.selected) {
-                option.set(SELECTED, true);
+                if(!this.get(MULTIPLE)) {
+					this._unselectCurrentSelected();
+				}
+				
+				option.set(SELECTED, true);
             }
             cb.append(option);
         },
+		_unselectCurrentSelected: function () {
+			Y.log('', 'info', 'Select _unselectCurrentSelected');
+			var option = this.getOptionSelected();
+			if(option) {
+				option.set(SELECTED, false);
+			}
+		},
         getOptionSelected: function () {
             Y.log('', 'info', 'Select getOptionSelected');
             var cb = this.get(CB);
@@ -132,6 +144,10 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 value: [],
                 validator: Y.Lang.isArray
             },
+			multiple: {
+				value: false,
+				validator: Y.Lang.isBoolean
+			},
             options: {}
         },
         HTML_PARSER: {

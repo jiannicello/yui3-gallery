@@ -3,6 +3,7 @@ YUI.add('gallery-icello-nodeutil-select', function(Y) {
 var CB = 'contentBox',
     ITEMS = 'items',
     NAME = 'icello-nodeutil-select',
+	MULTIPLE = 'multiple',
     OPTION = 'option',
     OPTION_CHECKED = 'option:checked',
     OPTIONS = 'options',
@@ -78,10 +79,20 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             html = sub(template, item);
             option = Node.create(html);
             if (item.selected) {
-                option.set(SELECTED, true);
+                if(!this.get(MULTIPLE)) {
+					this._unselectCurrentSelected();
+				}
+				
+				option.set(SELECTED, true);
             }
             cb.append(option);
         },
+		_unselectCurrentSelected: function () {
+			var option = this.getOptionSelected();
+			if(option) {
+				option.set(SELECTED, false);
+			}
+		},
         getOptionSelected: function () {
             var cb = this.get(CB);
             return cb.one(OPTION_CHECKED);
@@ -122,6 +133,10 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 value: [],
                 validator: Y.Lang.isArray
             },
+			multiple: {
+				value: false,
+				validator: Y.Lang.isBoolean
+			},
             options: {}
         },
         HTML_PARSER: {
@@ -131,4 +146,5 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
 );
 
 
-}, '@VERSION@' ,{skinnable:false, requires:['base-build', 'widget']});
+
+}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:false});
