@@ -17,7 +17,8 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', 'console-filt
             
             this.input = {
                 ddl: new Select({
-                    srcNode:'#ddl'
+                    srcNode:'#ddl',
+                    multiple: true
                 })
             };
             

@@ -97,6 +97,8 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             equal(ddl.size(), 4, 'size() after last append should be 4');
             equal(ddl.sizeSelected(), 1, 'sizeSelected() should remain 1');
             equal(ddl.getValueSelected(), 'la', 'getValueSelected() should now return "la"');
+            
+            ddl.destroy();
         });
         
         module('change event tests');
@@ -114,6 +116,8 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             ddl.on('change', function (e) {
                 step(4, 'step 4: confirm "change" event handler was called');
                 equal(e.optionSelected.get('value'), '3', '"e.optionSelected.get("value") should equal "3"');
+                
+                ddl.destroy();
             });
             
             step(1, 'step 1: render 3 items with default selected value of first item');
@@ -125,9 +129,29 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             
             step(3, 'step 3: simulate selecting this last option');
             option.set('selected', true);
-            option.simulate('change');
+            option.simulate('change'); 
+        });
+        
+        module('multiple tests');
+        test('two items selected should render two option elements selected', 4, function () {
+            var options = null,
+                ddl = new Select({
+                    srcNode: '#ddl',
+                    multiple: true,
+                    items: [
+                        {text:'One', value:'1', selected:true},
+                        {text:'Two', value:'2'},
+                        {text:'Three', value:'3', selected:true}
+                    ]
+                });
             
+            ddl.render();
+            optionsSelected = ddl.getOptionsSelected();
             
+            equal(ddl.sizeSelected(), 2, 'sizeSelected should return 2');
+            equal(optionsSelected.size(), 2, 'getOptionsSelected().size() should equal 2');
+            equal(optionsSelected.item(0).get('value'), '1', 'first selected item is value "1"');
+            equal(optionsSelected.item(1).get('value'), '3', '2nd selected item is value "3"');
         });
         
     });

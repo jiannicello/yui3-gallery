@@ -35,6 +35,10 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 var optionSelected = this.getOptionSelected();
                 e.optionSelected = optionSelected;
             }, this));
+            
+            if(this.get(MULTIPLE)) {
+                this.get(CB).set(MULTIPLE, true);
+            }
         },
         destructor: function () {
             Y.log('', 'info', 'Select initializer');
@@ -108,6 +112,11 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             var cb = this.get(CB);
             return cb.one(OPTION_CHECKED);
         },
+        getOptionsSelected: function () {
+            Y.log('', 'info', 'Select getOptionSelected');
+            var cb = this.get(CB);
+            return cb.all(OPTION_CHECKED);
+        },
         getValueSelected: function () {
             Y.log('', 'info', 'Select getValueSelected');
             var cb = this.get(CB);
@@ -150,7 +159,8 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             },
 			multiple: {
 				value: false,
-				validator: Y.Lang.isBoolean
+				validator: Y.Lang.isBoolean,
+				writeOnce: 'initOnly'
 			},
             options: {}
         },
