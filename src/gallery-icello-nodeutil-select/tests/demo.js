@@ -1,7 +1,13 @@
 var main = null;
 
-YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) {
+YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', 'console-filters', function (Y) {
     var Select = Y.Icello.NodeUtil.Select;
+    
+    new Y.Console({ 
+        logSource: Y.Global, 
+        newestOnTop: false,
+        plugins: [Y.Plugin.ConsoleFilters]
+    }).render();
     
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');

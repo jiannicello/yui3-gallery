@@ -56,11 +56,6 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
         bindUI: function () {
             Y.log('', 'info', 'Select bindUI');
         },
-        _defChangeFn: function (e) {
-            Y.log('', 'info', 'Select _defChangeFn');
-            console.dir(e);
-            
-        },
         /** 
         * @method append
         * @param {Object} item object literal with this properties: text, value, selected (Boolean)
@@ -78,7 +73,7 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             } else if (!item.value && !item.text) {
                 throw {
                     name: 'TextAndValueNotDefinedSelectException',
-                    message: "Icello.NodeUtil.Select append: at least 'text' or 'value' must be defined in paramter 'item'"
+                    message: "Icello.NodeUtil.Select append: at least 'text' or 'value' must be defined in parameter 'item'"
                 };
             }
             html = sub(template, item);

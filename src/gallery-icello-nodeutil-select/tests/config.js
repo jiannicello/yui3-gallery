@@ -6,7 +6,7 @@ YUI_config = {
             base: '../../../build/',
             modules: {
                 'gallery-icello-nodeutil-select': {
-                    requires: ['base-build', 'widget']
+                    requires: ['base-build', 'widget', 'selector-css3']
                 }
             }
         }
