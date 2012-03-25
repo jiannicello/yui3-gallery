@@ -68,18 +68,12 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
                 html = null,
                 option = null,
                 cb = this.get(CB);
-            if (item.text && !item.value) {
-                item.value = item.text;
-            } else if (item.value && !item.text) {
-                item.text = item.value;
-            } else if (!item.value && !item.text) {
-                throw {
-                    name: 'TextAndValueNotDefinedSelectException',
-                    message: "Icello.NodeUtil.Select append: at least 'text' or 'value' must be defined in parameter 'item'"
-                };
-            }
+            
+            this._normalizeItem(item);
+            
             html = sub(template, item);
             option = Node.create(html);
+            
             if (item.selected) {
                 if(!this.get(MULTIPLE)) {
 					this._unselectCurrentSelected();
@@ -88,6 +82,19 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
 				option.set(SELECTED, true);
             }
             cb.append(option);
+        },
+        _normalizeItem: function (item) {
+            Y.log('', 'info', 'Select _normalizeItem');
+            if (item.text && !item.value) {
+                item.value = item.text;
+            } else if (item.value && !item.text) {
+                item.text = item.value;
+            } else if (!item.value && !item.text) {
+                throw {
+                    name: 'TextAndValueNotDefinedSelectException',
+                    message: "Icello.NodeUtil.Select append _normalizeItem: at least 'text' or 'value' must be defined in parameter 'item'"
+                };
+            }
         },
 		_unselectCurrentSelected: function () {
 			Y.log('', 'info', 'Select _unselectCurrentSelected');
