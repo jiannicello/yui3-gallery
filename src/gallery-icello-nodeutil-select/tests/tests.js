@@ -102,7 +102,7 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
         });
         
         module('change event tests');
-        test('changing the selected option should fire a "change" event', 6, function () {
+        test('changing the selected option should fire a "change" event', 5, function () {
             var option = null,
                 ddl = new Select({
                     srcNode: '#ddl',
@@ -114,7 +114,7 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
                 });
             
             ddl.on('change', function (e) {
-                step(4, 'step 4: confirm "change" event handler was called');
+                step(3, 'step 3: confirm "change" event handler was called');
                 equal(e.optionSelected.get('value'), '3', '"e.optionSelected.get("value") should equal "3"');
                 
                 ddl.destroy();
@@ -123,13 +123,9 @@ YUI().use('gallery-icello-nodeutil-select', 'node-event-simulate', function (Y) 
             step(1, 'step 1: render 3 items with default selected value of first item');
             ddl.render();
             equal(ddl.getValueSelected(), '1', 'getValueSelected() should start of returning "1"');
-            
-            step(2, 'step 2: get last option, index 2 by calling "ddl.item(2)"');
-            option = ddl.item(2);
-            
-            step(3, 'step 3: simulate selecting this last option');
-            option.set('selected', true);
-            option.simulate('change'); 
+                        
+            step(2, 'step 2: simulate changing to index 2');
+            ddl.simulateChange(2); 
         });
         
         module('multiple tests');

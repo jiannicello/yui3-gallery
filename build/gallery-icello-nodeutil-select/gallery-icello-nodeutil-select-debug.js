@@ -1,6 +1,7 @@
 YUI.add('gallery-icello-nodeutil-select', function(Y) {
 
 var CB = 'contentBox',
+	CHANGE = 'change',
     ITEMS = 'items',
     NAME = 'icello-nodeutil-select',
 	MULTIPLE = 'multiple',
@@ -135,6 +136,18 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
             
             return options.item(index);
         },
+		simulateChange: function (index) {
+			Y.log('', 'info', 'Select simulateChange');
+			var option = this.item(index),
+				cb = this.get(CB);
+			
+			if(!this.get(MULTIPLE)) {
+				this._unselectCurrentSelected();
+			}
+				
+			option.set(SELECTED, true);
+			cb.simulate(CHANGE);
+		},
         size: function () {
             Y.log('', 'info', 'Select size');
             var cb = this.get(CB);
@@ -171,4 +184,5 @@ Y.Icello.NodeUtil.Select = Y.Base.create(
 );
 
 
-}, '@VERSION@' ,{skinnable:false, requires:['base-build', 'widget', 'selector-css3']});
+
+}, '@VERSION@' ,{requires:['base-build', 'widget', 'selector-css3'], skinnable:false});
