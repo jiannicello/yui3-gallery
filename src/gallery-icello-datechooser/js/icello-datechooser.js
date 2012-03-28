@@ -111,6 +111,11 @@
                 this._inputNodeHandle = null;
                 this._monthsL = this._getMonthsL(this.get('date'));
                 this._weekdaysL = this._getWeekdaysL(this.get('date'));
+                
+                this.set('align', {
+                    node: this.get('inputNode'),
+                    points: [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BL]
+                });
             },
             destructor: function () {
                 Y.log('', 'info', 'Datechooser destructor');
@@ -539,13 +544,9 @@
                     readOnly: true
                 },
                 inputNode: {
+                    writeOnce: 'initOnly',
                     setter: function (nodeOrId) {
                         Y.log('', 'info', 'Datechooser inputNode setter');
-
-                        this.set('align', {
-                            node: nodeOrId,
-                            points: [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BL]
-                        });
 
                         if (typeof nodeOrId === 'string') {
                             return Y.one(nodeOrId);
