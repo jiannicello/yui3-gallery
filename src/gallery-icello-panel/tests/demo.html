@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Icello.DateChooser demo</title>
+    <style type="text/css">
+        button.gbtn 
+        {
+            border: 1px solid #3079ed;
+            background-color: #4d90fe;
+            color:#fff;
+            text-shadow: 0 1px rgba(0,0,0,0.1);
+            font-size: 12px;
+            font-weight:normal;  
+            padding: 0 8px;
+            line-height: 27px;
+            cursor:pointer;
+        }
+        button.gbtn:hover
+        {
+           border: 1px solid #2f5bb7;
+           background-color: #357ae8;
+           text-shadow: 0 1px rgba(0,0,0,0.3);
+        }
+    </style>
+    
+    <script src="http://yui.yahooapis.com/3.5.0pre5/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div style="padding:10px;">
+    <table>
+        <tr>
+            <td><button id="btnInfo" class="gbtn">Display Info</button></td>
+            <td><button id="btnPlain">Display Plain</button></td>
+            <td><button id="btnError">Display Error</button></td>
+            <td><button id="btnWarning">Display Warning</button></td>
+            <td><button id="btnResizeDrag">Resizable/Draggable</button></td>
+            <td><button id="btnShowLoading">Show Loading</button></td>
+            <td><button id="btnCustomLoading">Show Custom Loading</button></td>
+        </tr>
+    </table>
+</div>    
+    
+<script src="config.js"></script>
+<script src="demo.js"></script>
+
+</body>
+</html>
