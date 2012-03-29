@@ -22,9 +22,9 @@ Panel.createAlignTLTR = function (node) {
 Panel.createBodyContent = function (cssName, content) {
 	var sub = Y.Lang.sub,
 		data = { css: cssName },
-		div = Y.Node.create(sub('<div class="yui3-grange-panel-state-{css}"></div>', data)),
-		icon = Y.Node.create(sub('<span class="yui3-grange-panel-icon yui3-grange-panel-icon-{css}"></span>', data)),
-		contentNode = Y.Node.create('<span class="yui3-grange-panel-msg"></span>');
+		div = Y.Node.create(sub('<div class="yui3-icello-panel-state-{css}"></div>', data)),
+		icon = Y.Node.create(sub('<span class="yui3-icello-panel-icon yui3-icello-panel-icon-{css}"></span>', data)),
+		contentNode = Y.Node.create('<span class="yui3-icello-panel-msg"></span>');
 
 	contentNode.setContent(content);
 
@@ -35,13 +35,13 @@ Panel.createBodyContent = function (cssName, content) {
 };
 
 Panel.createBodyContentLoading = function () {
-	return Y.Node.create('<div class="yui3-grange-panel-loader"></div>');
+	return Y.Node.create('<div class="yui3-icello-panel-loader"></div>');
 };
 
 Panel.createDefaultCloseButton = function (cfg) {
 	return {
 		value: 'Close',
-		classNames: 'yui3-grange-panel-icon yui3-button-close',
+		classNames: 'yui3-icello-panel-icon yui3-button-close',
 		action: function (e) {
 			e.preventDefault();
 			this.hide();
