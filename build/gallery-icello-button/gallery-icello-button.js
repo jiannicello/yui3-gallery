@@ -231,6 +231,7 @@ Y.Icello.Button = Y.Base.create(
         },
         bindUI: function () {
             this.after('disabledChange', Y.bind(this._afterDisabledChange, this));
+            this.after('titleChange', Y.bind(this._afterTitleChange, this));
         },
         syncUI: function () {
         },
@@ -255,6 +256,7 @@ Y.Icello.Button = Y.Base.create(
             cb.empty();
             this._renderIcon();
             this._renderText();
+            this._setTitle(this.get('title'));
         },
         _afterDisabledChange: function (e) {
             var do_disable = e.newVal;
@@ -263,6 +265,9 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 this.enable();
             }
+        },
+        _afterTitleChange: function (e) {
+            this._setTitle(e.newVal);
         },
         _domButtonPreventDefault: function () {
             var cb = this.get(CB);
@@ -304,6 +309,10 @@ Y.Icello.Button = Y.Base.create(
             span = Node.create(sub(template, data));
             this.get(CB).appendChild(span);
         },
+        _setTitle: function (title) {
+            var cb = this.get(CB);
+            cb.set('title', title);
+        },
         _setViewType: function () {
 
             var cssIcon = this.get('icon'),
@@ -319,7 +328,7 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 throw {
                     name: 'IconAndLabelNotDefinedButtonException',
-                    message: "icello Button _setViewType: either 'cssIcon' or 'label' must be defined"
+                    message: "Icello.Button _setViewType: either 'cssIcon' or 'label' must be defined"
                 };
             }
 
@@ -331,7 +340,12 @@ Y.Icello.Button = Y.Base.create(
             label: {
                 value: ''
             },
-            disabled: {}
+            disabled: {},
+            title: {
+                value:'',
+                setter: function (v) {
+                }
+            }
         },
         CSS_NAMES: CSS_NAMES,
         ICONS: ICONS,

@@ -237,6 +237,7 @@ Y.Icello.Button = Y.Base.create(
         bindUI: function () {
             Y.log('', 'info', 'Button bindUI');
             this.after('disabledChange', Y.bind(this._afterDisabledChange, this));
+            this.after('titleChange', Y.bind(this._afterTitleChange, this));
         },
         syncUI: function () {
             Y.log('', 'info', 'Button syncUI');
@@ -263,6 +264,7 @@ Y.Icello.Button = Y.Base.create(
             cb.empty();
             this._renderIcon();
             this._renderText();
+            this._setTitle(this.get('title'));
         },
         _afterDisabledChange: function (e) {
             Y.log(e.newVal, 'info', 'Buttton _afterDisabledChange');
@@ -272,6 +274,10 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 this.enable();
             }
+        },
+        _afterTitleChange: function (e) {
+            Y.log(e.newVal, 'info', 'Button _afterTitleChanges');
+            this._setTitle(e.newVal);
         },
         _domButtonPreventDefault: function () {
             Y.log('', 'info', 'Button _domButtonPreventDefault');
@@ -318,6 +324,11 @@ Y.Icello.Button = Y.Base.create(
             span = Node.create(sub(template, data));
             this.get(CB).appendChild(span);
         },
+        _setTitle: function (title) {
+            Y.log('', 'info', 'Button _setTitle');
+            var cb = this.get(CB);
+            cb.set('title', title);
+        },
         _setViewType: function () {
             Y.log('', 'info', 'Button _setViewType');
 
@@ -334,7 +345,7 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 throw {
                     name: 'IconAndLabelNotDefinedButtonException',
-                    message: "icello Button _setViewType: either 'cssIcon' or 'label' must be defined"
+                    message: "Icello.Button _setViewType: either 'cssIcon' or 'label' must be defined"
                 };
             }
 
@@ -346,7 +357,13 @@ Y.Icello.Button = Y.Base.create(
             label: {
                 value: ''
             },
-            disabled: {}
+            disabled: {},
+            title: {
+                value:'',
+                setter: function (v) {
+                    Y.log(v, 'info', 'Button setter');
+                }
+            }
         },
         CSS_NAMES: CSS_NAMES,
         ICONS: ICONS,
