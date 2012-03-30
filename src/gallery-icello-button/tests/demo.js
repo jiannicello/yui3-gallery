@@ -28,11 +28,13 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                     btnSave: new Button({
                         srcNode: '#btnSave',
                         icon: Button.ICONS.DISK,
-                        disabled: true
+                        disabled: true,
+                        title: 'Save'
                     }),
                     btnSearch: new Button({
                         srcNode: '#btnSearch',
-                        icon: Button.ICONS.SEARCH
+                        icon: Button.ICONS.SEARCH,
+                        title: 'Search'
                     }),
                     buttonsBox: Y.one('#buttonsBox'),
                     ddlCssIcons: Y.one('#ddlCssIcons')
@@ -41,8 +43,6 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             Main.prototype = {
                 _allButtonsDspHandler: function (e) {
                     Y.log('', 'info', 'Main _allButtonsDspHandler');
-
-                    
 
                     var labels = this.input.allButtonsLabels;
 
@@ -57,10 +57,6 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                             btn.refresh();
                         }
                     });
-
-
-
-
                 },
                 _btnSaveHandler: function (e) {
                     Y.log('no preventDefault call needed', 'info', 'Main _btnSaveHandler');
@@ -86,7 +82,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
                     this.input.btnSave.enable();
 
-                    var btn = new Button({ label: t, icon: v });
+                    var btn = new Button({ label: t, icon: v, title: t});
                     btn.render(this.input.buttonsBox);
                 },
                 _loadIconKeys: function () {
@@ -110,7 +106,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                     Y.Object.each(Button.ICONS, function (value, name) {
                         appendOption(ddl, {text:name, value:value});
 
-                        var btn = new Button({ icon: value });
+                        var btn = new Button({ icon: value, title:name });
                         var td = Y.Node.create('<td></td>');
 
                         if (i % 25 == 1) {
