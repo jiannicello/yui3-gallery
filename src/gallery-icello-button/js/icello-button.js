@@ -343,7 +343,7 @@ Y.Icello.Button = Y.Base.create(
             } else {
                 throw {
                     name: 'IconAndLabelNotDefinedButtonException',
-                    message: "Icello.Button _setViewType: either 'cssIcon' or 'label' must be defined"
+                    message: "Icello.Button _setViewType: either 'icon' or 'label' must be defined"
                 };
             }
 
@@ -357,10 +357,7 @@ Y.Icello.Button = Y.Base.create(
             },
             disabled: {},
             title: {
-                value:'',
-                setter: function (v) {
-                    Y.log(v, 'info', 'Button setter');
-                }
+                value:''
             }
         },
         CSS_NAMES: CSS_NAMES,
