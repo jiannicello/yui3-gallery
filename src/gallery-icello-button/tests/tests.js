@@ -34,11 +34,20 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
-		test('setting "label" should set "title" with same value', 1, function () {
+		test('constructor only "label" should set "title" with same value', 1, function () {
 			var btn = new Button({label: 'my label and title'});
 			btn.render('#mybox');
 			
 			equal(btn.get('title'), btn.get('label'), 'when no title is explicitly set, the it should get the label value'); 
+			
+			btn.destroy();
+		});
+		test('constructor "title" and "label" differently should set them differently', 2, function () {
+			var btn = new Button({label: 'my label', title: 'my title'});
+			btn.render('#mybox');
+			
+			equal(btn.get('title'), 'my title', 'title should be "my title"'); 
+			equal(btn.get('label'), 'my label', 'label should be "my label"'); 
 			
 			btn.destroy();
 		});
