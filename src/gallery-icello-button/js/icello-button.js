@@ -230,7 +230,6 @@ Y.Icello.Button = Y.Base.create(
         },
         renderUI: function () {
             Y.log('', 'info', 'Button renderUI');
-            this.refresh();
         },
         bindUI: function () {
             Y.log('', 'info', 'Button bindUI');
@@ -239,11 +238,7 @@ Y.Icello.Button = Y.Base.create(
         },
         syncUI: function () {
             Y.log('', 'info', 'Button syncUI');
-        },
-        refresh: function () {
-            Y.log('', 'info', 'Button refresh');
-
-            var cb = this.get(CB);
+			var cb = this.get(CB);
 
             this._setViewType();
 

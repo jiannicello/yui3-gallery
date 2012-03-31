@@ -15,7 +15,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             };
         
         module('render tests');
-        test('change "icon" property and calling "refresh" should change dom icon', 6, function () {
+        test('change "icon" property and calling "syncUI" should change dom icon', 6, function () {
             var btn = new Button({ icon: Button.ICONS.PLUS });
             btn.render('#mybox');
 
@@ -23,13 +23,13 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             btn.set('icon', Button.ICONS.MINUS);
 
             step(2, 'step 2: confirm that icon in dom is still "PLUS"');
-            ok(hasClassIcon(btn, Button.ICONS.PLUS), 'before "refresh" icon should be "PLUS"');
+            ok(hasClassIcon(btn, Button.ICONS.PLUS), 'before "syncUI" icon should be "PLUS"');
 
-            step(3, 'step 3: call "refresh"');
-            btn.refresh();
+            step(3, 'step 3: call "syncUI"');
+            btn.syncUI();
 
             step(4, 'step 4: confirm that icon in dom is now "MINUS"');
-            ok(hasClassIcon(btn, Button.ICONS.MINUS), 'after "refresh" icon should be "MINUS"');
+            ok(hasClassIcon(btn, Button.ICONS.MINUS), 'after "syncUI" icon should be "MINUS"');
 
 
             btn.destroy();

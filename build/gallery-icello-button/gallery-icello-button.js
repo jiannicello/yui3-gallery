@@ -227,17 +227,13 @@ Y.Icello.Button = Y.Base.create(
             Y.Icello.Button.superclass.enable.call(this);
         },
         renderUI: function () {
-            this.refresh();
         },
         bindUI: function () {
             this.after('disabledChange', Y.bind(this._afterDisabledChange, this));
             this.after('titleChange', Y.bind(this._afterTitleChange, this));
         },
         syncUI: function () {
-        },
-        refresh: function () {
-
-            var cb = this.get(CB);
+			var cb = this.get(CB);
 
             this._setViewType();
 
@@ -360,4 +356,5 @@ Y.Icello.Button = Y.Base.create(
 );
 
 
-}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:true});
+
+}, '@VERSION@' ,{skinnable:true, requires:['base-build', 'widget']});
