@@ -103,7 +103,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 
 		btnCustomLoading.on('click', function (e) {
 			var p = Panel.render({
-				headerContent: 'Loading Custom Record with panel aligned to button...',
+				headerContent: 'Loading custom panel aligned to button...',
 				bodyContent: Panel.createBodyContentLoading(),
 				align: Panel.createAlignTLBL(btnCustomLoading)
 			});
