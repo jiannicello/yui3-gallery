@@ -54,7 +54,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                             else {
                                 btn.set('label', labels[i]);
                             }
-                            btn.refresh();
+                            btn.syncUI();
                         }
                     });
                 },

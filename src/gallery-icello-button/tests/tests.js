@@ -34,6 +34,14 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
+		test('setting "label" should set "title" with same value', 1, function () {
+			var btn = new Button({label: 'my label and title'});
+			btn.render('#mybox');
+			
+			equal(btn.get('title'), btn.get('label'), 'when no title is explicitly set, the it should get the label value'); 
+			
+			btn.destroy();
+		});
         test('no icon and text should throw an exception', 3, function () {
             var btn = new Button({});
 
