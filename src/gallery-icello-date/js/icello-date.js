@@ -7,17 +7,20 @@ Y.Icello.Date.addMonths = function (date, months) {
         dPlusMonthsDayOne = null,
         dPlusMonthsDayLast = null,
         inputMonth = date.getMonth() + months,
-        expectedMonth = inputMonth % 12;
+        expectedMonth = inputMonth % 12,
+        d = null;
 
     dPlusMonths = new Date(date.getFullYear(), inputMonth, date.getDate());
 
     if (expectedMonth === dPlusMonths.getMonth()) {
-        return dPlusMonths;
+        d = dPlusMonths;
     } else {
         dPlusMonthsDayOne = new Date(date.getFullYear(), inputMonth, 1);
         dPlusMonthsDayLast = new Date(dPlusMonthsDayOne.getFullYear(), dPlusMonthsDayOne.getMonth(), Y.Icello.Date.daysInMonth(dPlusMonthsDayOne));
-        return dPlusMonthsDayLast;
+        d = dPlusMonthsDayLast;
     }
+
+    return d;
 };
 
 Y.Icello.Date.areDaysEqual = function (date1, date2) {
