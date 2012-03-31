@@ -1,7 +1,7 @@
 YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node-event-simulate', function (Y) {
     Y.on('domready', function (e) {
-        var gdate = Y.Icello.Date,
-            ydate = Y.DataType.Date;
+        var IDate = Y.Icello.Date,
+            YDate = Y.DataType.Date;
 
         var fnGetNodeFromList = function (dateChooser, className, contentValue) {
             var nodes = dateChooser.get('contentBox').all(className);
@@ -26,9 +26,9 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
         };
 
         var equalDays = function (actualDate, expectedDate, contextMsg) {
-            var areDaysEqual = gdate.areDaysEqual(actualDate, expectedDate);
-            var actualDateStr = ydate.format(actualDate, { format: '%D' });
-            var expectedDateStr = ydate.format(expectedDate, { format: '%D' });
+            var areDaysEqual = IDate.areDaysEqual(actualDate, expectedDate);
+            var actualDateStr = YDate.format(actualDate, { format: '%D' });
+            var expectedDateStr = YDate.format(expectedDate, { format: '%D' });
             ok(areDaysEqual, "actualDate: " + actualDateStr + "; expectedDate: " + expectedDateStr + "; context: " + contextMsg);
         };
 
