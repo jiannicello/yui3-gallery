@@ -17,7 +17,7 @@ YUI().use('node', 'datatype', 'gallery-icello-date', function (Y) {
              ok(!areDaysEqual, "date1: " + date1Str + "; date2: " + date2Str + "; context: " + contextMsg);
          };
         
-         module('addDays tests');
+         module('addMonths tests');
          test('calling addMonths(d, 1) from Jan 1, 2011 should return Feb 1, 2011', 1, function () {
              var d1 = new Date(2011, 0, 1);
              var d2 = IDate.addMonths(d1, 1);
