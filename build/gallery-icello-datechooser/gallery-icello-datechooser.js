@@ -6,6 +6,7 @@ var getCN = Y.ClassNameManager.getClassName,
     DC = BASENAME + '-viewmonth',
     MC = BASENAME + '-viewyear',
     YC = BASENAME + '-viewdecade',
+    UI_SRC = Y.Widget.UI_SRC,
     IDate = Y.Icello.Date,
     YDate = Y.DataType.Date,
     sub = Y.substitute,
@@ -132,6 +133,7 @@ Y.Icello.DateChooser = Y.Base.create(
             this._inputNodeHandle = this.get('inputNode').on('click', Y.bind(this._inputNodeClick, this));
             this.on('click', Y.bind(this._clickHandler, this));
             this.set('hideOn', [{ eventName: 'clickoutside'}]);
+            this.after('dateChange', this._handlerAfterDateChange);
         },
         syncUI: function () {
 
@@ -183,7 +185,7 @@ Y.Icello.DateChooser = Y.Base.create(
                 newDate = new Date(year, month, dayChosen),
                 newDateDsp = (month + 1) + '/' + dayChosen + '/' + year;
 
-            this.set('date', newDate);
+            this.set('date', newDate, {source: UI_SRC});
             this._navdate = this.get('date');
 
             this.get('inputNode').set('value', newDateDsp);
@@ -211,6 +213,14 @@ Y.Icello.DateChooser = Y.Base.create(
             this._renderViewDecade();
             this.fire('decadeSelected', { navdate: this._navdate });
         },
+        _handlerAfterDateChange: function (e) {
+            if (e.source === UI_SRC) {
+                return;
+            }
+            
+            this._navdate = e.newVal;
+            this._dayChosenHandler(this._navdate.getDate());
+        },
         _inputNodeClick: function () {
 
             var hasDateChanged = false,
@@ -235,7 +245,7 @@ Y.Icello.DateChooser = Y.Base.create(
             }
         },
         _syncDates: function () {
-            this.set('date', this.get('inputNode').get('value'));
+            this.set('date', this.get('inputNode').get('value'), {source: UI_SRC});
             this._navdate = this.get('date');
         },
         _renderViewMonth: function () {

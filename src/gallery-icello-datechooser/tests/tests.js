@@ -202,6 +202,28 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
             inputNode.set('value', '10/15/2011');
             inputNode.simulate('click');
         });
+        test('setting "date" attribute should change Date in popup and inputNode', 6, function () {
+            var dc = this.dc,
+                inputNode = dc.get('inputNode');
+            
+            dc.on('inputClickShow', function () {
+                step(3, 'step 3: in "inputClickShow" handler, confirm selected date in interface');
+                var contentBox = dc.get('contentBox'),
+                    nodeDaySelected = contentBox.one('.yui3-icello-datechooser-viewmonth-day-selected'),
+                    nodeMonthYear = contentBox.one('.yui3-icello-datechooser-viewmonth-monthyear');
+                    
+                equal(nodeDaySelected.getContent(), '15', 'node content of day selected should be "15"');
+                equal(nodeMonthYear.getContent(), 'October 2011', 'node content of month year should be "October 2011"');
+            });
+            
+            step(1, 'step 1: set attribute date to "10/15/2011"');
+            dc.set('date', new Date(2011, 9, 15));
+            
+            equal(inputNode.get('value'), '10/15/2011', '"inputNode" value should be set to "10/15/2011"');
+            
+            step(2, 'step 2: simulate clicking "inputNode" to open calendar');
+            inputNode.simulate('click');
+        });
 
     }); //end domready
 
