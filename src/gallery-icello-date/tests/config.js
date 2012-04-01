@@ -6,7 +6,7 @@ YUI_config = {
             base: '../../../build/',
             modules: {
                 'gallery-icello-date': {
-                    requires: []
+                    requires: ['datatype-date-math']
                 }
             }
         }

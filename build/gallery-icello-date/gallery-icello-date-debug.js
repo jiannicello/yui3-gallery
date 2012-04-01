@@ -18,7 +18,7 @@ Y.Icello.Date.addMonths = function (date, months) {
         d = dPlusMonths;
     } else {
         dPlusMonthsDayOne = new Date(date.getFullYear(), inputMonth, 1);
-        dPlusMonthsDayLast = new Date(dPlusMonthsDayOne.getFullYear(), dPlusMonthsDayOne.getMonth(), Y.Icello.Date.daysInMonth(dPlusMonthsDayOne));
+        dPlusMonthsDayLast = new Date(dPlusMonthsDayOne.getFullYear(), dPlusMonthsDayOne.getMonth(), Y.DataType.Date.daysInMonth(dPlusMonthsDayOne));
         d = dPlusMonthsDayLast;
     }
 
@@ -38,27 +38,6 @@ Y.Icello.Date.areDaysEqual = function (date1, date2) {
     return y1 === y2 && m1 === m2 && d1 === d2;
 };
 
-Y.Icello.Date.daysInMonth = function (date) {
-    Y.log('', 'info', 'Icello Date daysInMonth');
-
-    var year = date.getFullYear(),
-        month = date.getMonth(),
-        lastdays = [31, 30, 29, 28],
-        lastDayOfMonth = null;
-
-    Y.Array.each(lastdays, function (lastday) {
-        if (lastDayOfMonth === null) {
-            var d = new Date(year, month, lastday);
-
-            if (d.getMonth() === month) {
-                lastDayOfMonth = lastday;
-            }
-        }
-    });
-
-    return lastDayOfMonth;
-};
-
 Y.Icello.Date.formatShortDate = function (date) {
     Y.log('', 'info', 'Icello Date formatShortDate');
     var sb = [date.getMonth() + 1, '/', date.getDate(), '/', date.getFullYear()];
@@ -66,4 +45,4 @@ Y.Icello.Date.formatShortDate = function (date) {
 };
 
 
-}, '@VERSION@' ,{skinnable:false});
+}, '@VERSION@' ,{skinnable:false, requires:['datatype-date-math']});
