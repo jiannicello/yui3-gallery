@@ -533,4 +533,4 @@ Y.Icello.DateChooser = Y.Base.create(
 
 
 
-}, '@VERSION@' ,{requires:['widget', 'widget-position', 'widget-stack', 'widget-position-align', 'widget-position-constrain', 'widget-autohide', 'datatype-date', 'datatype-date-math', 'substitute', 'datatype-date-format', 'galler-icello-date'], skinnable:true});
+}, '@VERSION@' ,{requires:['widget', 'widget-position', 'widget-stack', 'widget-position-align', 'widget-position-constrain', 'widget-autohide', 'datatype-date', 'datatype-date-math', 'substitute', 'datatype-date-format', 'gallery-icello-date'], skinnable:true});

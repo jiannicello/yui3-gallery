@@ -10,7 +10,7 @@ YUI_config = {
                     requires: ['widget', 'widget-position', 'widget-stack', 'widget-position-align', 'widget-position-constrain', 'widget-autohide', 'datatype-date', 'datatype-date-math', 'substitute', 'datatype-date-format', 'gallery-icello-date']
                 },
                 'gallery-icello-date': {
-                    requires: []
+                    requires: ['datatype-date-math']
                 }
             }
         }
