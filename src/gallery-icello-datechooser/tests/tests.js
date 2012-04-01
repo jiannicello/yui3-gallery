@@ -83,7 +83,7 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
             var dc = this.dc;
             var inputNode = dc.get('inputNode');
 
-            dc.on('daySelected', function (data) {
+            dc.on('daySelect', function (data) {
                 step(3, 'last step 3: confirm chosen date of 10/17/2011');
                 equalDays(dc.get('date'), new Date(2011, 9, 17), "on 'daySelected'");
             });
@@ -102,12 +102,12 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
             var dc = this.dc;
             var inputNode = dc.get('inputNode');
 
-            dc.on('daySelected', function () {
+            dc.on('daySelect', function () {
                 step(4, 'last step 4: confirm chosen date November, 10, 2011');
                 equalDays(dc.get('date'), new Date(2011, 10, 10), "on 'daySelected' for next month's view");
             });
 
-            dc.on('monthSelected', function (data) {
+            dc.on('monthSelect', function (data) {
                 step(3, 'step 3: in month November click the 10th');
                 var node10th = fnGetNodeByDay(dc, '10');
                 node10th.simulate('click');
@@ -127,18 +127,18 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
             var dc = this.dc;
             var inputNode = dc.get('inputNode');
 
-            dc.on('daySelected', function (data) {
+            dc.on('daySelect', function (data) {
                 step(5, 'last step 5: confirm chosen date Feb 3, 2011');
                 equalDays(dc.get('date'), new Date(2011, 1, 3), "on 'daySelected' after year/month views");
             });
 
-            dc.on('monthSelected', function () {
+            dc.on('monthSelect', function () {
                 step(4, 'step 4: in month view, click 3rd day of Feb 2011');
                 var lnk3rd = fnGetNodeByDay(dc, '3');
                 lnk3rd.simulate('click');
             });
 
-            dc.on('yearSelected', function (data) {
+            dc.on('yearSelect', function (data) {
                 step(3, 'step 3: in 2011 year view, click Feb link');
                 var lnkFeb = fnGetNodeByMonth(dc, 'Feb');
                 lnkFeb.simulate('click');
@@ -158,7 +158,7 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
             var dc = this.dc;
             var inputNode = dc.get('inputNode');
 
-            dc.on('decadeSelected', function (data) {
+            dc.on('decadeSelect', function (data) {
                 var navyear = data.navdate.getFullYear();
                 if (navyear == 2011) {
                     step(4, 'step 4: in decade view of 2010-2019, click prevdecade link');
@@ -170,7 +170,7 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
                 }
             });
 
-            dc.on('yearSelected', function (data) {
+            dc.on('yearSelect', function (data) {
                 var navyear = data.navdate.getFullYear();
                 if (navyear == 2011) {
                     step(3, 'step 3: in year view of 2011, click year link to enter decade of 2010-2019');
@@ -182,12 +182,12 @@ YUI().use('gallery-icello-datechooser', 'gallery-icello-date', 'datatype', 'node
                 }
             });
 
-            dc.on('monthSelected', function (data) {
+            dc.on('monthSelect', function (data) {
                 step(7, 'step 7: in month view, slick the 14th');
                 fnGetNodeByDay(dc, '14').simulate('click');
             });
 
-            dc.on('daySelected', function (data) {
+            dc.on('daySelect', function (data) {
                 step(8, 'last step 8: confirm date selected as 3/14/2005');
                 equalDays(dc.get('date'), new Date(2005, 2, 14), "'date' chosen");
             });

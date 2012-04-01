@@ -199,35 +199,35 @@ Y.Icello.DateChooser = Y.Base.create(
             this._renderViewMonth();
 
             this.hide();
-            this.fire('daySelected', { navdate: this._navdate });
+            this.fire('daySelect', { navdate: this._navdate });
         },
         _monthChosenHandler: function (newDate) {
             Y.log(newDate, 'info', 'DateChooser _monthChosenHandler');
 
             this._navdate = newDate;
             this._renderViewMonth();
-            this.fire('monthSelected', { navdate: this._navdate });
+            this.fire('monthSelect', { navdate: this._navdate });
         },
         _yearChosenHandler: function (newDate) {
             Y.log(newDate, 'info', 'DateChooser _yearChosenHandler');
 
             this._navdate = newDate;
             this._renderViewYear();
-            this.fire('yearSelected', { navdate: this._navdate });
+            this.fire('yearSelect', { navdate: this._navdate });
         },
         _decadeChosenHandler: function (newDate) {
             Y.log(newDate, 'info', 'DateChooser _decadeChosenHandler');
 
             this._navdate = newDate;
             this._renderViewDecade();
-            this.fire('decadeSelected', { navdate: this._navdate });
+            this.fire('decadeSelect', { navdate: this._navdate });
         },
         _handlerAfterDateChange: function (e) {
             Y.log('', 'info', 'DateChooser _handlerAfterDateChange');
             if (e.source === UI_SRC) {
                 return;
             }
-            
+
             this._navdate = e.newVal;
             this._dayChosenHandler(this._navdate.getDate());
         },
