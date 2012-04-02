@@ -1,6 +1,7 @@
 Y.namespace('Icello');
 
-var Panel = {};
+var Panel = {},
+	WPAlign = Y.WidgetPositionAlign;
 
 Panel.CSS_INFO = 'info';
 Panel.CSS_PLAIN = 'plain';
@@ -8,15 +9,21 @@ Panel.CSS_ERROR = 'error';
 Panel.CSS_WARNING = 'warning';
 
 
-
-Panel.createAlignTLBL = function (node) {
-	Y.log('', 'info', 'Panel createAlignTLBL');
-	return { node: node, points: [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.BL] };
+Panel.ALIGN = {
+	BC: WPAlign.BC,
+	BL: WPAlign.BL,
+	BR: WPAlign.BR,
+	CC: WPAlign.CC,
+	LC: WPAlign.LC,
+	RC: WPAlign.RC,
+	TC: WPAlign.TC,
+	TL: WPAlign.TL,
+	TR: WPAlign.TR
 };
 
-Panel.createAlignTLTR = function (node) {
-	Y.log('', 'info', 'Panel createAlignTLTR');
-	return { node: node, points: [Y.WidgetPositionAlign.TL, Y.WidgetPositionAlign.TR] };
+Panel.createAlign = function (node, pointPanel, pointAnchor) {
+	Y.log('', 'info', 'Panel createAlign');
+	return { node: node, points: [pointPanel, pointAnchor] }; 
 };
 
 Panel.createBodyContent = function (cssName, content) {

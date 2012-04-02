@@ -125,7 +125,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 				headerContent: 'Info Panel',
 				bodyContent: 'testing alignment',
 				constrain: true,
-				align: Panel.createAlignTLBL(anchor)
+				align: Panel.createAlign(anchor, Panel.ALIGN.TL, Panel.ALIGN.BL)
 			});
 
 			var points = p.get('align').points[0] + p.get('align').points[1];
@@ -139,7 +139,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 				headerContent: 'Info Panel',
 				bodyContent: 'testing alignment',
 				constrain: true,
-				align: Panel.createAlignTLTR(anchor)
+				align: Panel.createAlign(anchor, Panel.ALIGN.TL, Panel.ALIGN.TR)
 			});
 
 			var points = p.get('align').points[0] + p.get('align').points[1];

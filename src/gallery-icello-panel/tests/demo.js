@@ -20,7 +20,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 			var panel = Panel.renderInfo({
 				headerContent: 'Info Demo Popup',
 				bodyContent: body,
-				align: Panel.createAlignTLBL(btnInfo),
+				align: Panel.createAlign(btnInfo, Panel.ALIGN.TL, Panel.ALIGN.BL),
 				buttons: [
 					Panel.createButton({
 						value: 'Yes',
@@ -43,7 +43,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 			pnPlain = Panel.renderPlain({
 				headerContent: 'Plain Demo Popup',
 				bodyContent: body,
-				align: Panel.createAlignTLBL(btnPlain),
+				align: Panel.createAlign(btnPlain, Panel.ALIGN.TL, Panel.ALIGN.BL),
 				buttons: [
 				Panel.createButton({
 					value: 'Yes',
@@ -64,7 +64,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 			var panel = Panel.renderError({
 				headerContent: 'Error Demo Popup',
 				bodyContent: 'This is a body error demo box. Just makes it easier to create one without remembering all of the panel properties.',
-				align: Panel.createAlignTLBL(btnError),
+				align: Panel.createAlign(btnError, Panel.ALIGN.TL, Panel.ALIGN.BL),
 				zIndex: 1,
 				buttons: [
 				Panel.createButton({ value: 'OK' }),
@@ -77,7 +77,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 			var panel = Panel.renderWarning({
 				headerContent: 'Warning Demo Popup',
 				bodyContent: 'body warning message is here<br /><br /><br /><br />',
-				align: Panel.createAlignTLBL(btnWarning),
+				align: Panel.createAlign(btnWarning, Panel.ALIGN.TL, Panel.ALIGN.BL),
 				buttons: [Panel.createButton({ value: 'Yes' }), Panel.createButton({ value: 'No' }), Panel.createDefaultCloseButton()]
 			});
 		});
@@ -88,7 +88,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 				bodyContent: 'my content here',
 				resizable: true,
 				draggable: true,
-				align: Panel.createAlignTLBL(btnResizeDrag),
+				align: Panel.createAlign(btnResizeDrag, Panel.ALIGN.TL, Panel.ALIGN.BL),
 				height: 200,
 				buttons: [Panel.createDefaultCloseButton()]
 			});
@@ -105,7 +105,7 @@ YUI().use('gallery-icello-panel', 'node-event-simulate', function (Y) {
 			var p = Panel.render({
 				headerContent: 'Loading custom panel aligned to button...',
 				bodyContent: Panel.createBodyContentLoading(),
-				align: Panel.createAlignTLBL(btnCustomLoading)
+				align: Panel.createAlign(btnCustomLoading, Panel.ALIGN.TL, Panel.ALIGN.BL)
 			});
 
 			setTimeout(function () {
