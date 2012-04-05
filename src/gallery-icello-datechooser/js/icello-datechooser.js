@@ -1,3 +1,6 @@
+/** 
+* @module gallery-icello-datechooser
+*/
 var getCN = Y.ClassNameManager.getClassName,
     CBX = 'contentBox',
     BASENAME = 'icello-datechooser',
@@ -99,6 +102,12 @@ var getCN = Y.ClassNameManager.getClassName,
 
 Y.namespace('Icello');
 
+/** 
+* @class DateChooser
+* @extends Widget
+* @constructor
+* @namespace Icello
+*/
 Y.Icello.DateChooser = Y.Base.create(
     BASENAME,
     Y.Widget,
@@ -522,6 +531,12 @@ Y.Icello.DateChooser = Y.Base.create(
     },
     { //static members
         ATTRS: {
+            /** 
+            * The optional selected date of the calendar.
+            * @attribute date
+            * @type Date
+            * @default today date
+            */
             date: {
                 value: new Date(),
                 validator: function (val) {
@@ -554,6 +569,11 @@ Y.Icello.DateChooser = Y.Base.create(
                 value: '225px',
                 readOnly: true
             },
+            /** 
+            * The input type text element.
+            * @attribute inputNode
+            * @type Node|String
+            */
             inputNode: {
                 writeOnce: 'initOnly',
                 setter: function (nodeOrId) {
