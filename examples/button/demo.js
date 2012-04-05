@@ -1,6 +1,6 @@
 var main = null;
 
-YUI().use('gallery-icello-button', 'node-event-simulate', 'selector-css3', function (Y) {
+YUI({gallery: 'gallery-2012.04.04-17-55'}).use('gallery-icello-button', 'node-event-simulate', 'selector-css3', function (Y) {
     var Button = Y.Icello.Button,
         appendOption = function (ddl, item) {
 			var option_str = Y.Lang.sub('<option value="{value}">{text}</option>', item),
