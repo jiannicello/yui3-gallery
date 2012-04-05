@@ -1,3 +1,6 @@
+/** 
+* @module gallery-icello-button
+*/
 var BASENAME = 'icello-button',
 	CB = 'contentBox',
 	CSS_NAMES = {
@@ -197,7 +200,12 @@ ICONS = {
 
 
 Y.namespace('Icello');
-
+/** 
+* @class Button
+* @extends Widget
+* @constructor
+* @namespace Icello
+*/
 Y.Icello.Button = Y.Base.create(
 	'icello-button',
 	Y.Widget,
@@ -349,17 +357,37 @@ Y.Icello.Button = Y.Base.create(
 	},
 	{
 	    ATTRS: {
+            /** 
+            * Css icon class name. Should be a value from ICONS.
+            * @attribute icon
+            * @type String
+            */
             icon: {
 				validator: Y.Lang.isString
 			},
+			/** 
+			* The label of the button.
+			* @attribute label
+			* @type String
+			*/
             label: {
 				validator: Y.Lang.isString,
                 value: ''
             },
+            /** 
+            * @attribute disabled
+            * @type Boolean
+            * @default false
+            */
             disabled: {
 				validator: Y.Lang.isBoolean,
 				value: false
 			},
+			/** 
+			* The button's title
+			* @attribute title
+			* @type String
+			*/
             title: {
                 validator: Y.Lang.isString,
 				value: ''
