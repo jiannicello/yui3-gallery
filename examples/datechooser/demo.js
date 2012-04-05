@@ -1,6 +1,6 @@
 var cal = null;
 //{ lang: 'es' }
-YUI({lang: 'en'}).use('gallery-icello-datechooser', function (Y) {
+YUI({lang: 'en', gallery: 'gallery-2012.04.04-17-55'}).use('gallery-icello-datechooser', function (Y) {
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
 
