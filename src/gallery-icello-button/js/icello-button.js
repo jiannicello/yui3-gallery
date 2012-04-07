@@ -201,6 +201,7 @@ ICONS = {
 
 Y.namespace('Icello');
 /** 
+* a button Widget with set of icons to select from
 * @class Button
 * @extends Widget
 * @constructor
@@ -216,7 +217,13 @@ Y.Icello.Button = Y.Base.create(
         initializer: function () {
             Y.log('', 'info', 'Button initializer');
 
-            this._viewType = null;
+            /** 
+            * 
+            * @property viewType
+            * @type String
+            * @private
+            */
+            this.viewType = null;
             this._domButtonPreventDefault();
 
             if (this.get('disabled')) {
@@ -243,21 +250,25 @@ Y.Icello.Button = Y.Base.create(
             Y.log('', 'info', 'Button bindUI');
             this.after('disabledChange', Y.bind(this._afterDisabledChange, this));
         },
+        /** 
+        * should be called explicitly after 'icon', 'label' and 'title' have changed
+        * @method syncUI
+        */
         syncUI: function () {
             Y.log('', 'info', 'Button syncUI');
             var cb = this.get(CB);
 
-            this._setViewType();
+            this.setViewType();
 
             cb.removeClass(CSS_NAMES.ICON_ONLY);
             cb.removeClass(CSS_NAMES.LABEL_ONLY);
             cb.removeClass(CSS_NAMES.ICON_WITH_LABEL);
 
-            if (this._viewType === VIEW_TYPES.ICON_ONLY) {
+            if (this.viewType === VIEW_TYPES.ICON_ONLY) {
                 cb.addClass(CSS_NAMES.ICON_ONLY);
-            } else if (this._viewType === VIEW_TYPES.LABEL_ONLY) {
+            } else if (this.viewType === VIEW_TYPES.LABEL_ONLY) {
                 cb.addClass(CSS_NAMES.LABEL_ONLY);
-            } else if (this._viewType === VIEW_TYPES.ICON_WITH_LABEL) {
+            } else if (this.viewType === VIEW_TYPES.ICON_WITH_LABEL) {
                 cb.addClass(CSS_NAMES.ICON_WITH_LABEL);
             }
 
@@ -280,7 +291,7 @@ Y.Icello.Button = Y.Base.create(
             var cb = this.get(CB);
             cb.on('click', function (e) {
                 e.preventDefault(); // - this was needed so that when button is within form, the form doesn't submit automatically
-                // - the client will not need to worry about this strange behavior; they can submit form as needed explicitly
+                // - the client will not need to worry about this behavior; they can submit form as needed explicitly
             });
         },
         _disableButton: function () {
@@ -315,7 +326,7 @@ Y.Icello.Button = Y.Base.create(
                 span = null,
                 template = '<span class="{css}">{label}</span>';
 
-            label = (this._viewType === VIEW_TYPES.ICON_ONLY) ? '&nbsp;' : this.get('label');
+            label = (this.viewType === VIEW_TYPES.ICON_ONLY) ? '&nbsp;' : this.get('label');
             data = { css: getCN(BASENAME, 'label'), label: label };
             span = Node.create(sub(template, data));
             this.get(CB).appendChild(span);
@@ -333,23 +344,28 @@ Y.Icello.Button = Y.Base.create(
                 this.set('title', label);
             }
         },
-        _setViewType: function () {
-            Y.log('', 'info', 'Button _setViewType');
+        /** 
+        * called by syncUI. sets viewType to ICON WITH LABEL, ICON ONLY or LABEL ONLY
+        * @method setViewType
+        * @private
+        */
+        setViewType: function () {
+            Y.log('', 'info', 'Button setViewType');
 
             var cssIcon = this.get('icon'),
                 label = this.get('label'),
                 labelHasValue = label && label.replace(/ /g, '') !== '';
 
             if (cssIcon && labelHasValue) {
-                this._viewType = VIEW_TYPES.ICON_WITH_LABEL;
+                this.viewType = VIEW_TYPES.ICON_WITH_LABEL;
             } else if (cssIcon && !labelHasValue) {
-                this._viewType = VIEW_TYPES.ICON_ONLY;
+                this.viewType = VIEW_TYPES.ICON_ONLY;
             } else if (!cssIcon && labelHasValue) {
-                this._viewType = VIEW_TYPES.LABEL_ONLY;
+                this.viewType = VIEW_TYPES.LABEL_ONLY;
             } else {
                 throw {
                     name: 'IconAndLabelNotDefinedButtonException',
-                    message: "Icello.Button _setViewType: either 'icon' or 'label' must be defined"
+                    message: "Icello.Button setViewType: either 'icon' or 'label' must be defined"
                 };
             }
         }
