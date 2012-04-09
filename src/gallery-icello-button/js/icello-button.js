@@ -345,7 +345,7 @@ Y.Icello.Button = Y.Base.create(
             }
         },
         /** 
-        * called by syncUI. sets viewType to ICON WITH LABEL, ICON ONLY or LABEL ONLY
+        * called by syncUI. sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY`
         * @method setViewType
         * @private
         */
