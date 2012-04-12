@@ -275,7 +275,7 @@ Y.Icello.Button = Y.Base.create(
             cb.empty();
             this._renderIcon();
             this._renderText();
-            this._setTitle();
+            this.setTitle();
         },
         _afterDisabledChange: function (e) {
             Y.log(e.newVal, 'info', 'Buttton _afterDisabledChange');
@@ -331,8 +331,13 @@ Y.Icello.Button = Y.Base.create(
             span = Node.create(sub(template, data));
             this.get(CB).appendChild(span);
         },
-        _setTitle: function () {
-            Y.log('', 'info', 'Button _setTitle');
+		/** 
+		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by syncUI. 
+		* @method setTitle
+		* @private
+		*/
+        setTitle: function () {
+            Y.log('', 'info', 'Button setTitle');
             var cb = this.get(CB),
                 label = this.get('label'),
                 title = this.get('title');
@@ -345,7 +350,7 @@ Y.Icello.Button = Y.Base.create(
             }
         },
         /** 
-        * called by syncUI. sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY`
+        * Sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY`. Called by syncUI. 
         * @method setViewType
         * @private
         */
