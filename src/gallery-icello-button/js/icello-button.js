@@ -239,6 +239,13 @@ Y.Icello.Button = Y.Base.create(
             */
             this.viewType = null;
 
+            /** 
+            * An array of event handlers
+            * @type Array
+            * @private
+            */
+            this.handlers = [];
+
             this.setOnButtonClickPreventDefault();
 
             if (this.get('disabled')) {
@@ -247,6 +254,11 @@ Y.Icello.Button = Y.Base.create(
         },
         destructor: function () {
             Y.log('', 'info', 'Button destructor');
+
+            Y.Array.each(this.handlers, function (handler) {
+                Y.log('', 'info', 'Button destructor detach');
+                handler.detach();
+            });
         },
         disable: function () {
             Y.log('', 'info', 'Button disable');
@@ -357,10 +369,10 @@ Y.Icello.Button = Y.Base.create(
         setOnButtonClickPreventDefault: function () {
             Y.log('', 'info', 'Button setOnButtonClickPreventDefault');
             var cb = this.get(CB);
-            cb.on('click', function (e) {
+            this.handlers.push(cb.on('click', function (e) {
                 Y.log('', 'info', 'Button click handler preventDefault')
                 e.preventDefault();
-            });
+            }));
         },
 		/** 
 		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by syncUI. 

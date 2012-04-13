@@ -240,6 +240,13 @@ Y.Icello.Button = Y.Base.create(
             */
             this.viewType = null;
 
+            /** 
+            * An array of event handlers
+            * @type Array
+            * @private
+            */
+            this.handlers = [];
+
             this.setOnButtonClickPreventDefault();
 
             if (this.get('disabled')) {
@@ -247,6 +254,10 @@ Y.Icello.Button = Y.Base.create(
             }
         },
         destructor: function () {
+
+            Y.Array.each(this.handlers, function (handler) {
+                handler.detach();
+            });
         },
         disable: function () {
             this.disableButton();
@@ -346,8 +357,8 @@ Y.Icello.Button = Y.Base.create(
         */
         setOnButtonClickPreventDefault: function () {
             var cb = this.get(CB);
-            cb.on('click', function (e) {
-            });
+            this.handlers.push(cb.on('click', function (e) {
+            }));
         },
 		/** 
 		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by syncUI. 
