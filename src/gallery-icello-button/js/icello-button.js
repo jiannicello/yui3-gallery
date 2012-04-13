@@ -212,8 +212,22 @@ Y.Icello.Button = Y.Base.create(
     Y.Widget,
     [],
     {
+        /** 
+        * set to &lt;button&gt;&lt;/button&gt;
+        * @property BOUNDING_TEMPLATE
+        * @type String
+        */
         BOUNDING_TEMPLATE: '<button></button>',
+        /** 
+        * set to null
+        * @property CONTENT_TEMPLATE
+        * @type String
+        */
         CONTENT_TEMPLATE: null,
+        /** 
+        * Calls `setOnButtonClickPreventDefault()` and if `disabled` attribute is true calls `disableButton()`
+        * @method initializer
+        */
         initializer: function () {
             Y.log('', 'info', 'Button initializer');
 
@@ -344,6 +358,7 @@ Y.Icello.Button = Y.Base.create(
             Y.log('', 'info', 'Button setOnButtonClickPreventDefault');
             var cb = this.get(CB);
             cb.on('click', function (e) {
+                Y.log('', 'info', 'Button click handler preventDefault')
                 e.preventDefault();
             });
         },
