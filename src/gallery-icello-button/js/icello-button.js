@@ -224,10 +224,11 @@ Y.Icello.Button = Y.Base.create(
             * @private
             */
             this.viewType = null;
-            this._domButtonPreventDefault();
+
+            this.setOnButtonClickPreventDefault();
 
             if (this.get('disabled')) {
-                this._disableButton();
+                this.disableButton();
             }
         },
         destructor: function () {
@@ -235,12 +236,12 @@ Y.Icello.Button = Y.Base.create(
         },
         disable: function () {
             Y.log('', 'info', 'Button disable');
-            this._disableButton();
+            this.disableButton();
             Y.Icello.Button.superclass.disable.call(this);
         },
         enable: function () {
             Y.log('', 'info', 'Button enable');
-            this._enableButton();
+            this.enableButton();
             Y.Icello.Button.superclass.enable.call(this);
         },
         renderUI: function () {
@@ -248,7 +249,7 @@ Y.Icello.Button = Y.Base.create(
         },
         bindUI: function () {
             Y.log('', 'info', 'Button bindUI');
-            this.after('disabledChange', Y.bind(this._afterDisabledChange, this));
+            this.after('disabledChange', Y.bind(this.afterDisabledChange, this));
         },
         /** 
         * should be called explicitly after 'icon', 'label' and 'title' have changed
@@ -273,12 +274,12 @@ Y.Icello.Button = Y.Base.create(
             }
 
             cb.empty();
-            this._renderIcon();
-            this._renderText();
+            this.renderIcon();
+            this.renderLabel();
             this.setTitle();
         },
-        _afterDisabledChange: function (e) {
-            Y.log(e.newVal, 'info', 'Buttton _afterDisabledChange');
+        afterDisabledChange: function (e) {
+            Y.log(e.newVal, 'info', 'Buttton afterDisabledChange');
             var do_disable = e.newVal;
             if (do_disable) {
                 this.disable();
@@ -286,26 +287,23 @@ Y.Icello.Button = Y.Base.create(
                 this.enable();
             }
         },
-        _domButtonPreventDefault: function () {
-            Y.log('', 'info', 'Button _domButtonPreventDefault');
-            var cb = this.get(CB);
-            cb.on('click', function (e) {
-                e.preventDefault(); // - this was needed so that when button is within form, the form doesn't submit automatically
-                // - the client will not need to worry about this behavior; they can submit form as needed explicitly
-            });
-        },
-        _disableButton: function () {
-            Y.log('', 'info', 'Button _disableButton');
+        /** 
+        * Sets the contentBox `disabled` attribute to true. Called by `disable()` and called by `initializer` if `disabled` attribute is true.
+        * @method disableButton
+        * @private
+        */
+        disableButton: function () {
+            Y.log('', 'info', 'Button disableButton');
             var cb = this.get(CB);
             cb.set('disabled', true);
         },
-        _enableButton: function () {
-            Y.log('', 'info', 'Button _enableButton');
+        enableButton: function () {
+            Y.log('', 'info', 'Button enableButton');
             var cb = this.get(CB);
             cb.set('disabled', false);
         },
-        _renderIcon: function () {
-            Y.log('', 'info', 'Button _renderIcon');
+        renderIcon: function () {
+            Y.log('', 'info', 'Button renderIcon');
             var cssIcon = this.get('icon'),
                 data = null,
                 span = null,
@@ -319,8 +317,13 @@ Y.Icello.Button = Y.Base.create(
                 this.get(CB).appendChild(span);
             }
         },
-        _renderText: function () {
-            Y.log('', 'info', 'Button _renderText');
+        /** 
+        * Renders label. If `viewType` is `VIEW_TYPES.ICON_ONLY`, then label is set to an html space. Called by syncUI.
+        * @method renderLabel
+        * @private
+        */
+        renderLabel: function () {
+            Y.log('', 'info', 'Button renderLabel');
             var data = null,
                 label = null,
                 span = null,
@@ -330,6 +333,19 @@ Y.Icello.Button = Y.Base.create(
             data = { css: getCN(BASENAME, 'label'), label: label };
             span = Node.create(sub(template, data));
             this.get(CB).appendChild(span);
+        },
+        /** 
+        * Sets an on click event handler of contentBox which calls preventDefault, so that when button is within a form, the form does not submit automatically.
+        * Called by initializer, so that it's the first event handler called.
+        * @method setOnButtonClickPreventDefault
+        * @protected
+        */
+        setOnButtonClickPreventDefault: function () {
+            Y.log('', 'info', 'Button setOnButtonClickPreventDefault');
+            var cb = this.get(CB);
+            cb.on('click', function (e) {
+                e.preventDefault();
+            });
         },
 		/** 
 		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by syncUI. 
@@ -350,7 +366,7 @@ Y.Icello.Button = Y.Base.create(
             }
         },
         /** 
-        * Sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY`. Called by syncUI. 
+        * Sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY` depending on what combination of attributes has values between `icon` and `label`. Called by syncUI. 
         * @method setViewType
         * @private
         */
