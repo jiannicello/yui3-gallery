@@ -252,6 +252,10 @@ Y.Icello.Button = Y.Base.create(
                 this.disableButton();
             }
         },
+        /** 
+        * Calls detach on `handlers`.
+        * @method destructor
+        */
         destructor: function () {
             Y.log('', 'info', 'Button destructor');
 
@@ -323,6 +327,11 @@ Y.Icello.Button = Y.Base.create(
             var cb = this.get(CB);
             cb.set('disabled', true);
         },
+        /** 
+        * Sets the contentBox `disabled` attribute to false. Called by `enable()`.
+        * @method enableButton
+        * @private
+        */
         enableButton: function () {
             Y.log('', 'info', 'Button enableButton');
             var cb = this.get(CB);
