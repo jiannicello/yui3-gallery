@@ -1,5 +1,7 @@
 YUI.add('gallery-icello-button', function(Y) {
 
+'use strict';
+
 /** 
 * @module gallery-icello-button
 */
@@ -253,22 +255,36 @@ Y.Icello.Button = Y.Base.create(
                 this.disableButton();
             }
         },
+        /** 
+        * Calls detach on `handlers`.
+        * @method destructor
+        */
         destructor: function () {
 
             Y.Array.each(this.handlers, function (handler) {
                 handler.detach();
             });
         },
+        /**
+        * Calls `disableButton()` and `Button.superclass.disable()`
+        * @method disable
+        */
         disable: function () {
             this.disableButton();
             Y.Icello.Button.superclass.disable.call(this);
         },
+        /** 
+        * Calls `enableButton()` and `Button.superclass.enable()`
+        * @method enable
+        */
         enable: function () {
             this.enableButton();
             Y.Icello.Button.superclass.enable.call(this);
         },
-        renderUI: function () {
-        },
+        /** 
+        * Sets afterDisabledChange
+        * @method bindUI
+        */
         bindUI: function () {
             this.after('disabledChange', Y.bind(this.afterDisabledChange, this));
         },
@@ -298,6 +314,11 @@ Y.Icello.Button = Y.Base.create(
             this.renderLabel();
             this.setTitle();
         },
+        /** 
+        * If new disabled value is true, calls `disable()`, otherwise calls `enable()`.
+        * @method afterDisabledChange
+        * @private
+        */
         afterDisabledChange: function (e) {
             var do_disable = e.newVal;
             if (do_disable) {
@@ -315,10 +336,20 @@ Y.Icello.Button = Y.Base.create(
             var cb = this.get(CB);
             cb.set('disabled', true);
         },
+        /** 
+        * Sets the contentBox `disabled` attribute to false. Called by `enable()`.
+        * @method enableButton
+        * @private
+        */
         enableButton: function () {
             var cb = this.get(CB);
             cb.set('disabled', false);
         },
+        /** 
+        * If `icon` attribute is set, appends icon span to contentBox. Called by `syncUI`.
+        * @method renderIcon
+        * @private
+        */
         renderIcon: function () {
             var cssIcon = this.get('icon'),
                 data = null,
@@ -334,7 +365,7 @@ Y.Icello.Button = Y.Base.create(
             }
         },
         /** 
-        * Renders label. If `viewType` is `VIEW_TYPES.ICON_ONLY`, then label is set to an html space. Called by syncUI.
+        * Appends span label to contentBox. If `viewType` is `VIEW_TYPES.ICON_ONLY`, then label is set to an html space. Called by `syncUI`.
         * @method renderLabel
         * @private
         */
@@ -358,10 +389,11 @@ Y.Icello.Button = Y.Base.create(
         setOnButtonClickPreventDefault: function () {
             var cb = this.get(CB);
             this.handlers.push(cb.on('click', function (e) {
+                e.preventDefault();
             }));
         },
 		/** 
-		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by syncUI. 
+		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by `syncUI`. 
 		* @method setTitle
 		* @private
 		*/
