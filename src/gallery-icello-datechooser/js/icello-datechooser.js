@@ -114,15 +114,34 @@ Y.Icello.DateChooser = Y.Base.create(
     BASENAME,
     Y.Widget,
     [Y.WidgetPosition, Y.WidgetStack, Y.WidgetPositionAlign, Y.WidgetPositionConstrain, Y.WidgetAutohide],
-    { //instance members
+    {
         initializer: function () {
             Y.log('', 'info', 'Datechooser initializer');
+
+            /** 
+            * The Date that the user has navigated to but not chosen necessarily
+            * @property navdate
+            * @type Date
+            * @private
+            */
             this.navdate = null;
-            this.monthsL = null;
-            this.weekdaysL = null;
-            this.inputNodeHandle = null;
+
+            /** 
+            * The Array of month abbreviations
+            * @property monthsL
+            * @type Array
+            * @private
+            */
             this.monthsL = this.getMonthsL(this.get('date'));
+
+            /** 
+            * The Array of weekday abbreviations
+            * @property weekdaysL
+            * @private
+            */
             this.weekdaysL = this.getWeekdaysL(this.get('date'));
+
+            this.inputNodeHandle = null;
 
             this.set('align', {
                 node: this.get('inputNode'),
