@@ -1,5 +1,7 @@
 YUI.add('gallery-icello-date', function(Y) {
 
+'use strict';
+
 Y.namespace('Icello.Date');
 
 Y.Icello.Date.addMonths = function (date, months) {
