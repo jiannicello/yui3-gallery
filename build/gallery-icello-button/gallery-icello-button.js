@@ -328,10 +328,7 @@ Y.Icello.Button = Y.Base.create(
                 this.enable();
             }
         },
-		afterTitleChange: function (e) {
-			this.setUiTitle(e.newVal);
-		},
-        /** 
+		/** 
         * Sets the contentBox `disabled` attribute to true. Called by `disable()` and called by `initializer` if `disabled` attribute is true.
         * @method disableButton
         * @private
@@ -508,5 +505,4 @@ Y.Icello.Button = Y.Base.create(
 );
 
 
-
-}, '@VERSION@' ,{skinnable:true, requires:['base-build', 'widget']});
+}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:true});
