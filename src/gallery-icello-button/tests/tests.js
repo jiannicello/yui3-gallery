@@ -34,11 +34,11 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
-		test('constructor only "label" should set "title" with same value', 1, function () {
-			var btn = new Button({label: 'my label and title'});
+		test('constructor only "label" should set "title" to ""', 1, function () {
+			var btn = new Button({label: 'my label with no title'});
 			btn.render('#mybox');
 			
-			equal(btn.get('title'), btn.get('label'), 'when no title is explicitly set, the it should get the label value'); 
+			equal(btn.get('title'), null, 'when no title is explicitly set, it should be null'); 
 			
 			btn.destroy();
 		});
@@ -152,5 +152,45 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
+		
+		module('from html tests');
+		test('disabled button in html should be disabled in attribute', 1, function () {
+			var btn = new Button({ srcNode: '#btnDisabled' });
+			btn.render();
+
+			equal(btn.get('disabled'), true, '"disabled" attribute should be true');
+
+			btn.destroy();
+		});
+		test('disabled true in html but disabled false in constructor should result in disabled false', 1, function () {
+			var btn = new Button({ srcNode: '#btnDisabedHtmlEnabledConfig', disabled: false });
+			btn.render();
+
+			equal(btn.get('disabled'), false, '"disabled" attribute should be false');
+
+			btn.destroy();
+		});
+		test('enabled in html but disabled in config results in disabled', 1, function () {
+			var btn = new Button({ srcNode: '#btnEnabledHtmlDisabledConfig', disabled: true });
+			btn.render();
+
+			equal(btn.get('disabled'), true, '"disabled" attribute should be true');
+
+			btn.destroy();
+		});
+		test('button with html title should show up in contentBox', 3, function () {
+			var btn = new Button({ srcNode: '#btnWithTitle' });
+			btn.render();
+
+			equal(btn.get('contentBox').get('title'), 'My Title', '"contentBox" should equal "My Title"');
+
+			step(1, 'change "title" attribute to "Edit Title" and call syncUI');
+			btn.set('title', 'Edit Title');
+			btn.syncUI();
+
+			equal(btn.get('contentBox').get('title'), 'Edit Title', '"contentBox" should now equal "Edit Title"');
+
+			btn.destroy();
+		});
     });
 });

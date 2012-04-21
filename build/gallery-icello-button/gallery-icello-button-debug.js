@@ -232,7 +232,7 @@ Y.Icello.Button = Y.Base.create(
         * Calls `setOnButtonClickPreventDefault()` and if `disabled` attribute is true calls `disableButton()`
         * @method initializer
         */
-        initializer: function () {
+        initializer: function (cfg) {
             Y.log('', 'info', 'Button initializer');
 
             /** 
@@ -252,6 +252,8 @@ Y.Icello.Button = Y.Base.create(
 
             this.setOnButtonClickPreventDefault();
 
+			Y.log('cfg.disabled: ' + cfg.disabled, 'info', 'Button initializer');
+            this.set('disabled', cfg.disabled);
             if (this.get('disabled')) {
                 this.disableButton();
             }
@@ -292,7 +294,7 @@ Y.Icello.Button = Y.Base.create(
         */
         bindUI: function () {
             Y.log('', 'info', 'Button bindUI');
-            this.after('disabledChange', Y.bind(this.afterDisabledChange, this));
+            this.after('disabledChange', this.afterDisabledChange);
         },
         /** 
         * should be called explicitly after 'icon', 'label' and 'title' have changed
@@ -317,9 +319,9 @@ Y.Icello.Button = Y.Base.create(
             }
 
             cb.empty();
+			this.setUiTitle(this.get('title'));
             this.renderIcon();
             this.renderLabel();
-            this.setTitle();
         },
         /** 
         * If new disabled value is true, calls `disable()`, otherwise calls `enable()`.
@@ -335,6 +337,10 @@ Y.Icello.Button = Y.Base.create(
                 this.enable();
             }
         },
+		afterTitleChange: function (e) {
+			Y.log('', 'info', 'Button afterTitleChange');
+			this.setUiTitle(e.newVal);
+		},
         /** 
         * Sets the contentBox `disabled` attribute to true. Called by `disable()` and called by `initializer` if `disabled` attribute is true.
         * @method disableButton
@@ -407,23 +413,15 @@ Y.Icello.Button = Y.Base.create(
             }));
         },
 		/** 
-		* Sets button title with 'title' attribute if not empty, else with 'label' attribute if not empty. Called by `syncUI`. 
-		* @method setTitle
+		* Sets title of button. Called by `syncUI`.
+		* @method setUiTitle
 		* @private
 		*/
-        setTitle: function () {
-            Y.log('', 'info', 'Button setTitle');
-            var cb = this.get(CB),
-                label = this.get('label'),
-                title = this.get('title');
-
-            if (title !== '') {
-                cb.set('title', title);
-            } else if (label !== '') {
-                cb.set('title', label);
-                this.set('title', label);
-            }
-        },
+		setUiTitle: function (v) {
+			Y.log('', 'info', 'Button setUiTitle');
+			var cb = this.get(CB);
+			cb.set('title', v);
+		},
         /** 
         * Sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY` depending on what combination of attributes has values between `icon` and `label`. Called by syncUI. 
         * @method setViewType
@@ -467,7 +465,7 @@ Y.Icello.Button = Y.Base.create(
             */
             label: {
                 validator: Y.Lang.isString,
-                value: ''
+                value: null
             },
             /** 
             * @attribute disabled
@@ -485,7 +483,10 @@ Y.Icello.Button = Y.Base.create(
             */
             title: {
                 validator: Y.Lang.isString,
-                value: ''
+                value: null,
+				setter: function (v) {
+					Y.log('v: ' + v, 'info', 'Button title setter');
+				}
             }
         },
         CSS_NAMES: CSS_NAMES,
@@ -497,17 +498,37 @@ Y.Icello.Button = Y.Base.create(
         */
         ICONS: ICONS,
         HTML_PARSER: {
+			disabled: function (srcNode) {
+				Y.log('', 'info', 'Button HTML_PARSER disabled');
+				if (srcNode) {
+					return srcNode.get('disabled');
+				}
+
+				return false;
+			},
             label: function (srcNode) {
                 Y.log('', 'info', 'Button HTML_PARSER label');
 
                 if (srcNode) {
                     return srcNode.getContent();
                 }
-            }
+            },
+			title: function (srcNode) {
+				var v = null;
+				
+				if (srcNode && srcNode.hasAttribute('title')) {
+					v = srcNode.getAttribute('title');
+				} else {
+					v = null;
+				}
+				Y.log('v: ' + v, 'info', 'Button HTML_PARSER title');
+				return v;
+			}
         },
         VIEW_TYPES: VIEW_TYPES
     }
 );
 
 
-}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:true});
+
+}, '@VERSION@' ,{skinnable:true, requires:['base-build', 'widget']});
