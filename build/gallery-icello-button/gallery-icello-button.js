@@ -8,7 +8,7 @@ YUI.add('gallery-icello-button', function(Y) {
 var BASENAME = 'icello-button',
     CB = 'contentBox',
 	CSS = {
-		DISABLED: 'yui3-grange-button-disabled'
+		DISABLED: 'yui3-icello-button-disabled'
 	},
     CSS_NAMES = {
         ICON_ONLY: 'yui3-icello-button-icononly',
@@ -19,20 +19,20 @@ var BASENAME = 'icello-button',
 	TEMPLATES = {
 		NODE: {
 			ICON_ONLY: [
-				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-icononly" title="{title}">',
-				'<span class="yui3-grange-button-icon {icon}"></span>',
-				'<span class="yui3-grange-button-label">&nbsp;</span>',
+				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-icononly" title="{title}">',
+				'<span class="yui3-icello-button-icon {icon}"></span>',
+				'<span class="yui3-icello-button-label">&nbsp;</span>',
 				'</button>'
 			],
 			ICON_WITH_LABEL: [
-				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-iconwithlabel" title="{title}">',
-				'<span class="yui3-grange-button-icon {icon}"></span>',
-				'<span class="yui3-grange-button-label">{label}</span>',
+				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-iconwithlabel" title="{title}">',
+				'<span class="yui3-icello-button-icon {icon}"></span>',
+				'<span class="yui3-icello-button-label">{label}</span>',
 				'</button>'
 			],
 			LABEL_ONLY: [
-				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-labelonly" title="{title}">',
-				'<span class="yui3-grange-button-label">{label}</span>',
+				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-labelonly" title="{title}">',
+				'<span class="yui3-icello-button-label">{label}</span>',
 				'</button>'
 			]
 		}

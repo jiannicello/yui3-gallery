@@ -1,7 +1,9 @@
-var btn = null;
+var btn = null,
+	output = null,
+	Button = null;
 
 YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
-	var Button = Y.Icello.Button;
+	Button = Y.Icello.Button;
 
 	Y.on('domready', function (e) {
 		btn = new Button({srcNode:'#btn'});
@@ -10,6 +12,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 		});
 
 		btn.render();
-
+		
+		output = Y.one('#output');
 	});
 });
