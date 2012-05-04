@@ -5,12 +5,36 @@
 */
 var BASENAME = 'icello-button',
     CB = 'contentBox',
+	CSS = {
+		DISABLED: 'yui3-grange-button-disabled'
+	},
     CSS_NAMES = {
         ICON_ONLY: 'yui3-icello-button-icononly',
         LABEL_ONLY: 'yui3-icello-button-labelonly',
         ICON_WITH_LABEL: 'yui3-icello-button-iconwithlabel'
     },
     ICONS = null,
+	TEMPLATES = {
+		NODE: {
+			ICON_ONLY: [
+				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-icononly" title="{title}">',
+				'<span class="yui3-grange-button-icon {icon}"></span>',
+				'<span class="yui3-grange-button-label">&nbsp;</span>',
+				'</button>'
+			],
+			ICON_WITH_LABEL: [
+				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-iconwithlabel" title="{title}">',
+				'<span class="yui3-grange-button-icon {icon}"></span>',
+				'<span class="yui3-grange-button-label">{label}</span>',
+				'</button>'
+			],
+			LABEL_ONLY: [
+				'<button class="yui3-widget yui3-grange-button yui3-grange-button-content yui3-grange-button-labelonly" title="{title}">',
+				'<span class="yui3-grange-button-label">{label}</span>',
+				'</button>'
+			]
+		}
+	},
     VIEW_TYPES = {
         ICON_ONLY: 1,
         LABEL_ONLY: 2,
@@ -18,10 +42,34 @@ var BASENAME = 'icello-button',
     },
     Node = Y.Node,
     sub = Y.Lang.sub,
+	fnDisable = function () {
+		this.addClass(CSS.DISABLED);
+		this.set('disabled', true);
+	},
+	fnEnable = function () {
+		this.removeClass(CSS.DISABLED);
+		this.set('disabled', false);
+	},
     getCN = Y.ClassNameManager.getClassName,
     getIconCss = function (name) {
         return getCN(BASENAME, 'icon', name);
-    };
+    },
+	getNodeButton = function (cfg, template) {
+		var html = sub(template.join(''), cfg),
+			node = Node.create(html);
+
+		node.generateID();
+
+		node.disable = fnDisable;
+		node.enable = fnEnable;
+
+		if (cfg.disabled) {
+			node.disable();
+		}
+
+		return node;
+	};
+	
 
 ICONS = {
     ALERT: getIconCss('alert'),
@@ -519,6 +567,18 @@ Y.Icello.Button = Y.Base.create(
 				return v;
 			}
         },
-        VIEW_TYPES: VIEW_TYPES
+        VIEW_TYPES: VIEW_TYPES,
+		getNodeIconOnly: function (cfg) {
+			Y.log('', 'info', 'Button getNodeIconOnly');
+			return getNodeButton(cfg, TEMPLATES.NODE.ICON_ONLY);
+		},
+		getNodeIconWithLabel: function (cfg) {
+			Y.log('', 'info', 'Button getNodeIconWithLabel');
+			return getNodeButton(cfg, TEMPLATES.NODE.ICON_WITH_LABEL);
+		},
+		getNodeLabelOnly: function (cfg) {
+			Y.log('', 'info', 'Button getNodeLabelOnly');
+			return getNodeButton(cfg, TEMPLATES.NODE.LABEL_ONLY);
+		}
     }
 );

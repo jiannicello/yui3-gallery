@@ -2,7 +2,10 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
         
-        var Button = Y.Icello.Button,
+        var CSS = {
+                DISABLED: 'yui3-grange-button-disabled'
+            },
+			Button = Y.Icello.Button,
             hasClassIcon = function (btn, cssName) {
                 var cb = btn.get('contentBox');
                 var spanL = cb.all('span');
@@ -191,6 +194,36 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 			equal(btn.get('contentBox').get('title'), 'Edit Title', '"contentBox" should now equal "Edit Title"');
 
 			btn.destroy();
+		});
+		
+		module('node tests');
+		test('"getNodeLabelOnly" calling "enable" "disable" should affect node', 8, function () {
+			var node = Button.getNodeLabelOnly({ label: 'Search', title: 'Search Rows' });
+
+			equal(node.get('disabled'), false, '"node" should start off "disabled" "false"');
+			ok(!node.hasClass(CSS.DISABLED), '"node" should start off not having css disabled');
+
+			step(1, 'step 1: call "disable()"');
+			node.disable();
+
+			equal(node.get('disabled'), true, '"node" should now have "disabled" "true"');
+			ok(node.hasClass(CSS.DISABLED), '"node" should now have css disabled');
+
+			step(2, 'step 2: call "enable()"');
+			node.enable();
+
+			equal(node.get('disabled'), false, '"node" should now have "disabled" "false"');
+			ok(!node.hasClass(CSS.DISABLED), '"node" should now not have css disabled');
+
+			node.destroy();
+		});
+		test('"getNodeLabelOnly" passing "disabled" "true" should make node disabled', 2, function () {
+			var node = Button.getNodeLabelOnly({ label: 'Search', title: 'Search Rows', disabled: true });
+
+			equal(node.get('disabled'), true, '"node" should have "disabled" "true"');
+			ok(node.hasClass(CSS.DISABLED), '"node" should have css disabled');
+
+			node.destroy();
 		});
     });
 });
