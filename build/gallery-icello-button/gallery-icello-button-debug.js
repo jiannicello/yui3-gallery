@@ -60,13 +60,27 @@ var BASENAME = 'icello-button',
 		this.set('disabled', false);
 	},
 	getNodeButton = function (cfg, template) {
-		var html = sub(template.join(''), cfg),
-			node = Node.create(html);
+		var html = null,
+			node = null,
+			iconKey = null;
 
-		node.generateID();
+		if (cfg.icon) {
+			iconKey = cfg.icon.toUpperCase();
+			if (Y.Object.hasKey(ICONS, iconKey)) {
+				cfg.icon = ICONS[iconKey];
+			}
+		}
+
+
+		html = sub(template.join(''), cfg);
+		node = Node.create(html);
 
 		node.disable = fnDisable;
 		node.enable = fnEnable;
+
+		if (cfg.id) {
+			node.set('id', cfg.id);
+		}
 
 		if (cfg.disabled) {
 			node.disable();
@@ -572,6 +586,61 @@ Y.Icello.Button = Y.Base.create(
 			}
         },
         VIEW_TYPES: VIEW_TYPES,
+		renderNode: function (srcNode) {
+			Y.log('', 'info', 'Button renderNode');
+			var node = srcNode,
+				cfg = null,
+				content = null,
+				newNode = null,
+				getConfig = function (node) {
+					var cfg = {};
+
+					if (node.hasAttribute('id')) {
+						cfg.id = node.get('id');
+					}
+
+					if (node.hasAttribute('data-icon')) {
+						cfg.icon = node.getAttribute('data-icon');
+					}
+
+					cfg.disabled = node.get('disabled');
+
+					if (node.hasAttribute('title')) {
+						cfg.title = node.get('title');
+					}
+
+					content = node.getContent();
+
+					if (content.replace(/ /g, '') !== '') {
+						cfg.label = content;
+					}
+
+					return cfg;
+				};
+
+			if (Y.Lang.isString(srcNode)) {
+				node = Y.one(srcNode);
+			}
+
+			cfg = getConfig(node);
+
+
+			if (cfg.icon && cfg.label) {
+				newNode = Y.Icello.Button.getNodeIconWithLabel(cfg);
+			} else if (cfg.icon && !cfg.label) {
+				newNode = Y.Icello.Button.getNodeIconOnly(cfg);
+			} else if (!cfg.icon && cfg.label) {
+				newNode = Y.Icello.Button.getNodeLabelOnly(cfg);
+			} else {
+				throw {
+					name: 'IconAndLabelNotDefinedButtonException',
+					message: "grange Button getNodeFromHtml: either 'data-icon' or button's content must be defined"
+				};
+			}
+
+			node.replace(newNode);
+			return newNode;
+		},
 		getNodeIconOnly: function (cfg) {
 			Y.log('', 'info', 'Button getNodeIconOnly');
 			return getNodeButton(cfg, TEMPLATES.NODE.ICON_ONLY);
