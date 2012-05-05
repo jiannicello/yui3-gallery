@@ -3,7 +3,12 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
         Y.log('', 'info', 'domready');
         
         var CSS = {
-                DISABLED: 'yui3-grange-button-disabled'
+                DISABLED: 'yui3-icello-button-disabled',
+				VIEW_TYPES: {
+					ICON_ONLY: 'yui3-icello-button-icononly',
+					LABEL_ONLY: 'yui3-icello-button-labelonly',
+					ICON_WITH_LABEL: 'yui3-icello-button-iconwithlabel'
+				}
             },
 			Button = Y.Icello.Button,
             hasClassIcon = function (btn, cssName) {
@@ -128,8 +133,8 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             step(1, 'step 1: render with icon only');
             btn.render('#mybox');
 
-            step(2, 'step 2: confirm that "CSS_NAMES.ICON_ONLY" css class is in contentBox');
-            ok(hasClassCB(btn, Button.CSS_NAMES.ICON_ONLY), '"Button.CSS_NAMES.ICON_ONLY" should be in btn contentBox');
+            step(2, 'step 2: confirm that "CSS.VIEW_TYPES.ICON_ONLY" css class is in contentBox');
+            ok(hasClassCB(btn, CSS.VIEW_TYPES.ICON_ONLY), '"CSS.VIEW_TYPES.ICON_ONLY" should be in btn contentBox');
 
             btn.destroy();
         });
@@ -139,8 +144,8 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             step(1, 'step 1: render with label only');
             btn.render('#mybox');
 
-            step(2, 'step 2: confirm that "CSS_NAMES.LABEL_ONLY" css class is in contentBox');
-            ok(hasClassCB(btn, Button.CSS_NAMES.LABEL_ONLY), '"Button.CSS_NAMES.LABEL_ONLY" should be in btn contentBox');
+            step(2, 'step 2: confirm that "CSS.VIEW_TYPES.LABEL_ONLY" css class is in contentBox');
+            ok(hasClassCB(btn, CSS.VIEW_TYPES.LABEL_ONLY), '"CSS.VIEW_TYPES.LABEL_ONLY" should be in btn contentBox');
 
             btn.destroy();
         });
@@ -150,8 +155,8 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             step(1, 'step 1: render with icon and label');
             btn.render('#mybox');
 
-            step(2, 'step 2: confirm that "CSS_NAMES.ICON_WITH_LABEL" css class is in contentBox');
-            ok(hasClassCB(btn, Button.CSS_NAMES.ICON_WITH_LABEL), '"Button.CSS_NAMES.ICON_WITH_LABEL" should be in btn contentBox');
+            step(2, 'step 2: confirm that "CSS.VIEW_TYPES.ICON_WITH_LABEL" css class is in contentBox');
+            ok(hasClassCB(btn, CSS.VIEW_TYPES.ICON_WITH_LABEL), '"CSS.VIEW_TYPES.ICON_WITH_LABEL" should be in btn contentBox');
 
             btn.destroy();
         });

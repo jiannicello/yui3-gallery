@@ -4,15 +4,22 @@
 * @module gallery-icello-button
 */
 var BASENAME = 'icello-button',
+	getCN = Y.ClassNameManager.getClassName,
+	getCss = function (name) {
+		return getCN(BASENAME, name);
+	},
+    getIconCss = function (name) {
+        return getCN(BASENAME, 'icon', name);
+    },
     CB = 'contentBox',
 	CSS = {
-		DISABLED: 'yui3-icello-button-disabled'
+		DISABLED: getCss('disabled'),
+		VIEW_TYPES: {
+			ICON_ONLY: getCss('icononly'),
+			LABEL_ONLY: getCss('labelonly'),
+			ICON_WITH_LABEL: getCss('iconwithlabel')
+		}
 	},
-    CSS_NAMES = {
-        ICON_ONLY: 'yui3-icello-button-icononly',
-        LABEL_ONLY: 'yui3-icello-button-labelonly',
-        ICON_WITH_LABEL: 'yui3-icello-button-iconwithlabel'
-    },
     ICONS = null,
 	TEMPLATES = {
 		NODE: {
@@ -50,10 +57,6 @@ var BASENAME = 'icello-button',
 		this.removeClass(CSS.DISABLED);
 		this.set('disabled', false);
 	},
-    getCN = Y.ClassNameManager.getClassName,
-    getIconCss = function (name) {
-        return getCN(BASENAME, 'icon', name);
-    },
 	getNodeButton = function (cfg, template) {
 		var html = sub(template.join(''), cfg),
 			node = Node.create(html);
@@ -69,7 +72,7 @@ var BASENAME = 'icello-button',
 
 		return node;
 	};
-	
+
 
 ICONS = {
     ALERT: getIconCss('alert'),
@@ -352,16 +355,16 @@ Y.Icello.Button = Y.Base.create(
 
             this.setViewType();
 
-            cb.removeClass(CSS_NAMES.ICON_ONLY);
-            cb.removeClass(CSS_NAMES.LABEL_ONLY);
-            cb.removeClass(CSS_NAMES.ICON_WITH_LABEL);
+            cb.removeClass(CSS.VIEW_TYPES.ICON_ONLY);
+            cb.removeClass(CSS.VIEW_TYPES.LABEL_ONLY);
+            cb.removeClass(CSS.VIEW_TYPES.ICON_WITH_LABEL);
 
             if (this.viewType === VIEW_TYPES.ICON_ONLY) {
-                cb.addClass(CSS_NAMES.ICON_ONLY);
+                cb.addClass(CSS.VIEW_TYPES.ICON_ONLY);
             } else if (this.viewType === VIEW_TYPES.LABEL_ONLY) {
-                cb.addClass(CSS_NAMES.LABEL_ONLY);
+                cb.addClass(CSS.VIEW_TYPES.LABEL_ONLY);
             } else if (this.viewType === VIEW_TYPES.ICON_WITH_LABEL) {
-                cb.addClass(CSS_NAMES.ICON_WITH_LABEL);
+                cb.addClass(CSS.VIEW_TYPES.ICON_WITH_LABEL);
             }
 
             cb.empty();
@@ -531,7 +534,6 @@ Y.Icello.Button = Y.Base.create(
 				}
             }
         },
-        CSS_NAMES: CSS_NAMES,
         /** 
         * Contains icons css class names
         * @property ICONS
@@ -557,7 +559,7 @@ Y.Icello.Button = Y.Base.create(
             },
 			title: function (srcNode) {
 				var v = null;
-				
+
 				if (srcNode && srcNode.hasAttribute('title')) {
 					v = srcNode.getAttribute('title');
 				} else {
