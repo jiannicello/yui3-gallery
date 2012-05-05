@@ -7,12 +7,12 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 	Button = Y.Icello.Button;
 
 	Y.on('domready', function (e) {
-		btn = new Button({srcNode:'#btn'});
-		btn.on('click', function () {
+		btn = Button.renderNode('#btn');
+		btn.on('click', function (e) {
+			e.preventDefault();
 			Y.log('', 'info', 'btn click handler')
 		});
 
-		btn.render();
 		
 		output = Y.one('#output');
 		

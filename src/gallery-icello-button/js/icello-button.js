@@ -11,50 +11,38 @@ var BASENAME = 'icello-button',
     getIconCss = function (name) {
         return getCN(BASENAME, 'icon', name);
     },
-    CB = 'contentBox',
-	CSS = {
-		DISABLED: getCss('disabled'),
-		VIEW_TYPES: {
-			ICON_ONLY: getCss('icononly'),
-			LABEL_ONLY: getCss('labelonly'),
-			ICON_WITH_LABEL: getCss('iconwithlabel')
-		}
+    css = {
+		DISABLED: getCss('disabled')
 	},
     ICONS = null,
-	TEMPLATES = {
-		NODE: {
-			ICON_ONLY: [
-				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-icononly" title="{title}">',
-				'<span class="yui3-icello-button-icon {icon}"></span>',
-				'<span class="yui3-icello-button-label">&nbsp;</span>',
-				'</button>'
-			],
-			ICON_WITH_LABEL: [
-				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-iconwithlabel" title="{title}">',
-				'<span class="yui3-icello-button-icon {icon}"></span>',
-				'<span class="yui3-icello-button-label">{label}</span>',
-				'</button>'
-			],
-			LABEL_ONLY: [
-				'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-labelonly" title="{title}">',
-				'<span class="yui3-icello-button-label">{label}</span>',
-				'</button>'
-			]
-		}
+	templates = {
+		ICON_ONLY: [
+			'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-icononly">',
+			'<span class="yui3-icello-button-icon {icon}"></span>',
+			'<span class="yui3-icello-button-label">&nbsp;</span>',
+			'</button>'
+		],
+		ICON_WITH_LABEL: [
+			'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-iconwithlabel">',
+			'<span class="yui3-icello-button-icon {icon}"></span>',
+			'<span class="yui3-icello-button-label">{label}</span>',
+			'</button>'
+		],
+		LABEL_ONLY: [
+			'<button class="yui3-widget yui3-icello-button yui3-icello-button-content yui3-icello-button-labelonly">',
+			'<span class="yui3-icello-button-label">{label}</span>',
+			'</button>'
+		]
 	},
-    VIEW_TYPES = {
-        ICON_ONLY: 1,
-        LABEL_ONLY: 2,
-        ICON_WITH_LABEL: 3
-    },
+    Button = function () {},
     Node = Y.Node,
-    sub = Y.Lang.sub,
+    Lang = Y.Lang,
 	fnDisable = function () {
-		this.addClass(CSS.DISABLED);
+		this.addClass(css.DISABLED);
 		this.set('disabled', true);
 	},
 	fnEnable = function () {
-		this.removeClass(CSS.DISABLED);
+		this.removeClass(css.DISABLED);
 		this.set('disabled', false);
 	},
 	getNodeButton = function (cfg, template) {
@@ -70,7 +58,7 @@ var BASENAME = 'icello-button',
 		}
 
 
-		html = sub(template.join(''), cfg);
+		html = Lang.sub(template.join(''), cfg);
 		node = Node.create(html);
 
 		node.disable = fnDisable;
@@ -79,6 +67,10 @@ var BASENAME = 'icello-button',
 		if (cfg.id) {
 			node.set('id', cfg.id);
 		}
+
+        if (cfg.title) {
+            node.set('title', cfg.title);
+        }
 
 		if (cfg.disabled) {
 			node.disable();
@@ -267,396 +259,73 @@ ICONS = {
 
 
 Y.namespace('Icello');
-/** 
-* a button Widget with set of icons to select from
-* @class Button
-* @extends Widget
-* @constructor
-* @namespace Icello
-*/
-Y.Icello.Button = Y.Base.create(
-    'icello-button',
-    Y.Widget,
-    [],
-    {
-        /** 
-        * set to &lt;button&gt;&lt;/button&gt;
-        * @property BOUNDING_TEMPLATE
-        * @type String
-        */
-        BOUNDING_TEMPLATE: '<button></button>',
-        /** 
-        * set to null
-        * @property CONTENT_TEMPLATE
-        * @type String
-        */
-        CONTENT_TEMPLATE: null,
-        /** 
-        * Calls `setOnButtonClickPreventDefault()` and if `disabled` attribute is true calls `disableButton()`
-        * @method initializer
-        */
-        initializer: function (cfg) {
-            Y.log('', 'info', 'Button initializer');
 
-            /** 
-            * 
-            * @property viewType
-            * @type String
-            * @private
-            */
-            this.viewType = null;
+Button.ICONS = ICONS;
 
-            /** 
-            * An array of event handlers
-            * @type Array
-            * @private
-            */
-            this.handlers = [];
+Button.getNode = function (cfg) {
+    Y.log('', 'info', 'Button getNode');
+    var n = null;
 
-            this.setOnButtonClickPreventDefault();
-
-			Y.log('cfg.disabled: ' + cfg.disabled, 'info', 'Button initializer');
-            this.set('disabled', cfg.disabled);
-            if (this.get('disabled')) {
-                this.disableButton();
-            }
-        },
-        /** 
-        * Calls detach on `handlers`.
-        * @method destructor
-        */
-        destructor: function () {
-            Y.log('', 'info', 'Button destructor');
-
-            Y.Array.each(this.handlers, function (handler) {
-                Y.log('', 'info', 'Button destructor detach');
-                handler.detach();
-            });
-        },
-        /**
-        * Calls `disableButton()` and `Button.superclass.disable()`
-        * @method disable
-        */
-        disable: function () {
-            Y.log('', 'info', 'Button disable');
-            this.disableButton();
-            Y.Icello.Button.superclass.disable.call(this);
-        },
-        /** 
-        * Calls `enableButton()` and `Button.superclass.enable()`
-        * @method enable
-        */
-        enable: function () {
-            Y.log('', 'info', 'Button enable');
-            this.enableButton();
-            Y.Icello.Button.superclass.enable.call(this);
-        },
-        /** 
-        * Sets afterDisabledChange
-        * @method bindUI
-        */
-        bindUI: function () {
-            Y.log('', 'info', 'Button bindUI');
-            this.after('disabledChange', this.afterDisabledChange);
-        },
-        /** 
-        * should be called explicitly after 'icon', 'label' and 'title' have changed
-        * @method syncUI
-        */
-        syncUI: function () {
-            Y.log('', 'info', 'Button syncUI');
-            var cb = this.get(CB);
-
-            this.setViewType();
-
-            cb.removeClass(CSS.VIEW_TYPES.ICON_ONLY);
-            cb.removeClass(CSS.VIEW_TYPES.LABEL_ONLY);
-            cb.removeClass(CSS.VIEW_TYPES.ICON_WITH_LABEL);
-
-            if (this.viewType === VIEW_TYPES.ICON_ONLY) {
-                cb.addClass(CSS.VIEW_TYPES.ICON_ONLY);
-            } else if (this.viewType === VIEW_TYPES.LABEL_ONLY) {
-                cb.addClass(CSS.VIEW_TYPES.LABEL_ONLY);
-            } else if (this.viewType === VIEW_TYPES.ICON_WITH_LABEL) {
-                cb.addClass(CSS.VIEW_TYPES.ICON_WITH_LABEL);
-            }
-
-            cb.empty();
-			this.setUiTitle(this.get('title'));
-            this.renderIcon();
-            this.renderLabel();
-        },
-        /** 
-        * If new disabled value is true, calls `disable()`, otherwise calls `enable()`.
-        * @method afterDisabledChange
-        * @private
-        */
-        afterDisabledChange: function (e) {
-            Y.log(e.newVal, 'info', 'Buttton afterDisabledChange');
-            var do_disable = e.newVal;
-            if (do_disable) {
-                this.disable();
-            } else {
-                this.enable();
-            }
-        },
-		/** 
-        * Sets the contentBox `disabled` attribute to true. Called by `disable()` and called by `initializer` if `disabled` attribute is true.
-        * @method disableButton
-        * @private
-        */
-        disableButton: function () {
-            Y.log('', 'info', 'Button disableButton');
-            var cb = this.get(CB);
-            cb.set('disabled', true);
-        },
-        /** 
-        * Sets the contentBox `disabled` attribute to false. Called by `enable()`.
-        * @method enableButton
-        * @private
-        */
-        enableButton: function () {
-            Y.log('', 'info', 'Button enableButton');
-            var cb = this.get(CB);
-            cb.set('disabled', false);
-        },
-        /** 
-        * If `icon` attribute is set, appends icon span to contentBox. Called by `syncUI`.
-        * @method renderIcon
-        * @private
-        */
-        renderIcon: function () {
-            Y.log('', 'info', 'Button renderIcon');
-            var cssIcon = this.get('icon'),
-                data = null,
-                span = null,
-                template = null;
-
-            if (cssIcon) {
-                data = { cssIcon: cssIcon };
-                template = '<span class="yui3-icello-button-icon {cssIcon}"></span>';
-
-                span = Node.create(sub(template, data));
-                this.get(CB).appendChild(span);
-            }
-        },
-        /** 
-        * Appends span label to contentBox. If `viewType` is `VIEW_TYPES.ICON_ONLY`, then label is set to an html space. Called by `syncUI`.
-        * @method renderLabel
-        * @private
-        */
-        renderLabel: function () {
-            Y.log('', 'info', 'Button renderLabel');
-            var data = null,
-                label = null,
-                span = null,
-                template = '<span class="{css}">{label}</span>';
-
-            label = (this.viewType === VIEW_TYPES.ICON_ONLY) ? '&nbsp;' : this.get('label');
-            data = { css: getCN(BASENAME, 'label'), label: label };
-            span = Node.create(sub(template, data));
-            this.get(CB).appendChild(span);
-        },
-        /** 
-        * Sets an on click event handler of contentBox which calls preventDefault, so that when button is within a form, the form does not submit automatically.
-        * Called by initializer, so that it's the first event handler called.
-        * @method setOnButtonClickPreventDefault
-        * @protected
-        */
-        setOnButtonClickPreventDefault: function () {
-            Y.log('', 'info', 'Button setOnButtonClickPreventDefault');
-            var cb = this.get(CB);
-            this.handlers.push(cb.on('click', function (e) {
-                Y.log('', 'info', 'Button click handler preventDefault');
-                e.preventDefault();
-            }));
-        },
-		/** 
-		* Sets title of button. Called by `syncUI`.
-		* @method setUiTitle
-		* @private
-		*/
-		setUiTitle: function (v) {
-			Y.log('', 'info', 'Button setUiTitle');
-			var cb = this.get(CB);
-			cb.set('title', v);
-		},
-        /** 
-        * Sets `viewType` to `VIEW_TYPES.ICON_WITH_LABEL`, `VIEW_TYPES.ICON_ONLY` or `VIEW_TYPES.LABEL_ONLY` depending on what combination of attributes has values between `icon` and `label`. Called by syncUI. 
-        * @method setViewType
-        * @private
-        */
-        setViewType: function () {
-            Y.log('', 'info', 'Button setViewType');
-
-            var cssIcon = this.get('icon'),
-                label = this.get('label'),
-                labelHasValue = label && label.replace(/ /g, '') !== '';
-
-            if (cssIcon && labelHasValue) {
-                this.viewType = VIEW_TYPES.ICON_WITH_LABEL;
-            } else if (cssIcon && !labelHasValue) {
-                this.viewType = VIEW_TYPES.ICON_ONLY;
-            } else if (!cssIcon && labelHasValue) {
-                this.viewType = VIEW_TYPES.LABEL_ONLY;
-            } else {
-                throw {
-                    name: 'IconAndLabelNotDefinedButtonException',
-                    message: "Icello.Button setViewType: either 'icon' or 'label' must be defined"
-                };
-            }
-        }
-    },
-    {
-        ATTRS: {
-            /** 
-            * Css icon class name. Should be a value from ICONS.
-            * @attribute icon
-            * @type String
-            */
-            icon: {
-                validator: Y.Lang.isString
-            },
-            /** 
-            * The label of the button.
-            * @attribute label
-            * @type String
-            */
-            label: {
-                validator: Y.Lang.isString,
-                value: null
-            },
-            /** 
-            * @attribute disabled
-            * @type Boolean
-            * @default false
-            */
-            disabled: {
-                validator: Y.Lang.isBoolean,
-                value: false
-            },
-            /** 
-            * The button's title
-            * @attribute title
-            * @type String
-            */
-            title: {
-                validator: Y.Lang.isString,
-                value: null,
-				setter: function (v) {
-					Y.log('v: ' + v, 'info', 'Button title setter');
-				}
-            }
-        },
-        /** 
-        * Contains icons css class names
-        * @property ICONS
-        * @type Object
-        * @static
-        */
-        ICONS: ICONS,
-        HTML_PARSER: {
-			disabled: function (srcNode) {
-				Y.log('', 'info', 'Button HTML_PARSER disabled');
-				if (srcNode) {
-					return srcNode.get('disabled');
-				}
-
-				return false;
-			},
-            label: function (srcNode) {
-                Y.log('', 'info', 'Button HTML_PARSER label');
-
-                if (srcNode) {
-                    return srcNode.getContent();
-                }
-            },
-			title: function (srcNode) {
-				var v = null;
-
-				if (srcNode && srcNode.hasAttribute('title')) {
-					v = srcNode.getAttribute('title');
-				} else {
-					v = null;
-				}
-				Y.log('v: ' + v, 'info', 'Button HTML_PARSER title');
-				return v;
-			}
-        },
-        VIEW_TYPES: VIEW_TYPES,
-		renderNode: function (srcNode) {
-			Y.log('', 'info', 'Button renderNode');
-			var node = srcNode,
-				cfg = null,
-				content = null,
-				newNode = null,
-				getConfig = function (node) {
-					var cfg = {};
-
-					if (node.hasAttribute('id')) {
-						cfg.id = node.get('id');
-					}
-
-					if (node.hasAttribute('data-icon')) {
-						cfg.icon = node.getAttribute('data-icon');
-					}
-
-					cfg.disabled = node.get('disabled');
-
-					if (node.hasAttribute('title')) {
-						cfg.title = node.get('title');
-					}
-
-					content = node.getContent();
-
-					if (content.replace(/ /g, '') !== '') {
-						cfg.label = content;
-					}
-
-					return cfg;
-				};
-
-			if (Y.Lang.isString(srcNode)) {
-				node = Y.one(srcNode);
-			}
-
-			cfg = getConfig(node);
-
-			newNode = Y.Icello.Button.getNode(cfg);
-
-			node.replace(newNode);
-			return newNode;
-		},
-		getNode: function (cfg) {
-			Y.log('', 'info', 'Button getNode');
-			var n = null;
-
-			if (cfg.icon && cfg.label) {
-				n = Y.Icello.Button.getNodeIconWithLabel(cfg);
-			} else if (cfg.icon && !cfg.label) {
-				n = Y.Icello.Button.getNodeIconOnly(cfg);
-			} else if (!cfg.icon && cfg.label) {
-				n = Y.Icello.Button.getNodeLabelOnly(cfg);
-			} else {
-				throw {
-					name: 'IconAndLabelNotDefinedButtonException',
-					message: "Icello Button getNode: either 'icon' or button's content/label must be defined"
-				};
-			}
-
-			return n;
-		},
-		getNodeIconOnly: function (cfg) {
-			Y.log('', 'info', 'Button getNodeIconOnly');
-			return getNodeButton(cfg, TEMPLATES.NODE.ICON_ONLY);
-		},
-		getNodeIconWithLabel: function (cfg) {
-			Y.log('', 'info', 'Button getNodeIconWithLabel');
-			return getNodeButton(cfg, TEMPLATES.NODE.ICON_WITH_LABEL);
-		},
-		getNodeLabelOnly: function (cfg) {
-			Y.log('', 'info', 'Button getNodeLabelOnly');
-			return getNodeButton(cfg, TEMPLATES.NODE.LABEL_ONLY);
-		}
+    if (cfg.icon && cfg.label) {
+        n = getNodeButton(cfg, templates.ICON_WITH_LABEL);
+    } else if (cfg.icon && !cfg.label) {
+        n = getNodeButton(cfg, templates.ICON_ONLY);
+    } else if (!cfg.icon && cfg.label) {
+        n = getNodeButton(cfg, templates.LABEL_ONLY);
+    } else {
+        throw {
+            name: 'IconAndLabelNotDefinedButtonException',
+            message: "Icello Button getNode: either 'icon' or button's content/label must be defined"
+        };
     }
-);
+
+    return n;
+};
+Button.renderNode = function (srcNode) {
+    Y.log('', 'info', 'Button renderNode');
+    var node = srcNode,
+        cfg = null,
+        content = null,
+        newNode = null,
+        getConfig = function (node) {
+            var cfg = {};
+
+            if (node.hasAttribute('id')) {
+                cfg.id = node.get('id');
+            }
+
+            if (node.hasAttribute('data-icon')) {
+                cfg.icon = node.getAttribute('data-icon');
+            }
+
+            cfg.disabled = node.get('disabled');
+
+            if (node.hasAttribute('title')) {
+                cfg.title = node.get('title');
+            }
+
+            content = node.getContent();
+
+            if (content.replace(/ /g, '') !== '') {
+                cfg.label = content;
+            }
+
+            return cfg;
+        };
+
+    if (Y.Lang.isString(srcNode)) {
+        node = Y.one(srcNode);
+    }
+
+    cfg = getConfig(node);
+
+    newNode = Button.getNode(cfg);
+
+    node.replace(newNode);
+    return newNode;
+};
+
+/** 
+* a button Node generator with set of icons to choose from
+*/
+Y.Icello.Button = Button;
