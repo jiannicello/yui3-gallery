@@ -602,22 +602,28 @@ Y.Icello.Button = Y.Base.create(
 
 			cfg = getConfig(node);
 
-
-			if (cfg.icon && cfg.label) {
-				newNode = Y.Icello.Button.getNodeIconWithLabel(cfg);
-			} else if (cfg.icon && !cfg.label) {
-				newNode = Y.Icello.Button.getNodeIconOnly(cfg);
-			} else if (!cfg.icon && cfg.label) {
-				newNode = Y.Icello.Button.getNodeLabelOnly(cfg);
-			} else {
-				throw {
-					name: 'IconAndLabelNotDefinedButtonException',
-					message: "grange Button getNodeFromHtml: either 'data-icon' or button's content must be defined"
-				};
-			}
+			newNode = Y.Icello.Button.getNode(cfg);
 
 			node.replace(newNode);
 			return newNode;
+		},
+		getNode: function (cfg) {
+			var n = null;
+
+			if (cfg.icon && cfg.label) {
+				n = Y.Icello.Button.getNodeIconWithLabel(cfg);
+			} else if (cfg.icon && !cfg.label) {
+				n = Y.Icello.Button.getNodeIconOnly(cfg);
+			} else if (!cfg.icon && cfg.label) {
+				n = Y.Icello.Button.getNodeLabelOnly(cfg);
+			} else {
+				throw {
+					name: 'IconAndLabelNotDefinedButtonException',
+					message: "Icello Button getNode: either 'icon' or button's content/label must be defined"
+				};
+			}
+
+			return n;
 		},
 		getNodeIconOnly: function (cfg) {
 			return getNodeButton(cfg, TEMPLATES.NODE.ICON_ONLY);
