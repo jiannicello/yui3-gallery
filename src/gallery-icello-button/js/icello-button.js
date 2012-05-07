@@ -77,7 +77,10 @@ var BASENAME = 'icello-button',
 		}
 
 		return node;
-	};
+	},
+    isVisibleString = function (v) {
+        return Lang.isString(v) && v.replace(/ /g, '') !== '';
+    };
 
 
 ICONS = {
@@ -266,6 +269,10 @@ Button.getNode = function (cfg) {
     Y.log('', 'info', 'Button getNode');
     var n = null;
 
+    if (cfg.label && !isVisibleString(cfg.label)) {
+        cfg.label = null;
+    }
+
     if (cfg.icon && cfg.label) {
         n = getNodeButton(cfg, templates.ICON_WITH_LABEL);
     } else if (cfg.icon && !cfg.label) {
@@ -306,7 +313,7 @@ Button.renderNode = function (srcNode) {
 
             content = node.getContent();
 
-            if (content.replace(/ /g, '') !== '') {
+            if (isVisibleString(content)) {
                 cfg.label = content;
             }
 
