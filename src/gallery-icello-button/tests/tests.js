@@ -1,4 +1,6 @@
 YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
+    'use strict';
+
     var CSS = {
             DISABLED: 'yui3-icello-button-disabled',
             VIEW_TYPES: {
@@ -19,8 +21,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             try {
                 step(1, 'step 1: call "getNode" with no "icon" nor "label" set');
                 btn = Button.getNode({});
-            }
-            catch (e) {
+            } catch (e) {
                 step(2, 'step 2: catch exception and confirm "IconOrLabelNotDefinedButtonException"');
                 equal(e.name, 'IconAndLabelNotDefinedButtonException', '"e.name" should equal "IconOrLabelNotDefinedButtonException"');
             }
@@ -32,8 +33,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             try {
                 step(1, 'step 1: call "getNode" with no "icon" and "label" with only spaces');
                 btn = Button.getNode({ label: '  ' });
-            }
-            catch (e) {
+            } catch (e) {
                 step(2, 'step 2: catch exception and confirm "IconOrLabelNotDefinedButtonException"');
                 equal(e.name, 'IconAndLabelNotDefinedButtonException', '"e.name" should equal "IconOrLabelNotDefinedButtonException"');
             }
@@ -128,7 +128,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             btn.destroy();
         });
         test('btnIconOnlyAlert in memory node should have 1 icon span with alert and 1 empty label span', 3, function () {
-            var btn = Button.getNode({icon:'alert'}),
+            var btn = Button.getNode({icon: 'alert'}),
                 spans = btn.all('span'),
                 spanIcon = spans.item(0),
                 spanLabel = spans.item(1);
@@ -140,7 +140,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
             btn.destroy();
         });
         test('btnIconWithLabelCancel in memory node should have 1 icon span with cancel and 1 "Cancel" label span', 3, function () {
-            var btn = Button.getNode({icon:'cancel', label:'Cancel'}),
+            var btn = Button.getNode({icon: 'cancel', label: 'Cancel'}),
                 spans = btn.all('span'),
                 spanIcon = spans.item(0),
                 spanLabel = spans.item(1);
@@ -151,65 +151,64 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
-            
-         module('renderNode tests');
-            test('disabled button in html should be disabled in node attribute', 1, function () {
-                var btn = Button.renderNode('#btnDisabled');
 
-                equal(btn.get('disabled'), true, '"disabled" attribute should be true');
+        module('renderNode tests');
+        test('disabled button in html should be disabled in node attribute', 1, function () {
+            var btn = Button.renderNode('#btnDisabled');
 
-                btn.destroy();
-            });
-            test('button with html title should show up in node', 1, function () {
-                var btn = Button.renderNode('#btnWithTitle');
+            equal(btn.get('disabled'), true, '"disabled" attribute should be true');
 
-                equal(btn.get('title'), 'My Title', '"btn" "title" should equal "My Title"');
+            btn.destroy();
+        });
+        test('button with html title should show up in node', 1, function () {
+            var btn = Button.renderNode('#btnWithTitle');
 
-                btn.destroy();
-            });
-            test('button with no attributes defined should not have attributes set in node', 3, function () {
-                var btn = Button.renderNode(Y.one('.btn-with-no-attrs'));
+            equal(btn.get('title'), 'My Title', '"btn" "title" should equal "My Title"');
 
-                equal(btn.hasAttribute('id'), false, '"btn" should not have "id" attr');
-                equal(btn.hasAttribute('title'), false, '"btn" should not have "title" attr');
-                equal(btn.get('disabled'), false, '"btn" should not be disabled');
+            btn.destroy();
+        });
+        test('button with no attributes defined should not have attributes set in node', 3, function () {
+            var btn = Button.renderNode(Y.one('.btn-with-no-attrs'));
 
-                btn.destroy();
-            });
-            test('button with label should only render label span', 2, function () {
-                var btn = Button.renderNode('#btnLabelOnly'),
-                    spans = btn.all('span'),
-                    span = spans.item(0);
+            equal(btn.hasAttribute('id'), false, '"btn" should not have "id" attr');
+            equal(btn.hasAttribute('title'), false, '"btn" should not have "title" attr');
+            equal(btn.get('disabled'), false, '"btn" should not be disabled');
 
-                equal(spans.size(), 1, '"spans.size()" should only equal 1');
-                equal(span.getContent(), 'Button label only', '"span" "content" should equal "Button label only"');
+            btn.destroy();
+        });
+        test('button with label should only render label span', 2, function () {
+            var btn = Button.renderNode('#btnLabelOnly'),
+                spans = btn.all('span'),
+                span = spans.item(0);
 
-                btn.destroy();
-            });
-            test('btnIconOnlyAlert should have 1 icon span with alert and 1 empty label span', 3, function () {
-                var btn = Button.renderNode('#btnIconOnlyAlert'),
-                    spans = btn.all('span'),
-                    spanIcon = spans.item(0),
-                    spanLabel = spans.item(1);
+            equal(spans.size(), 1, '"spans.size()" should only equal 1');
+            equal(span.getContent(), 'Button label only', '"span" "content" should equal "Button label only"');
 
-                equal(spans.size(), 2, '"spans.size()" should only equal 2');
-                equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-alert', '"spanIcon" should have "icon" and "alert" css classes');
-                equal(spanLabel.getContent(), '&nbsp;', '"spanLabel.getContent()" should equal "&nbsp;"');
+            btn.destroy();
+        });
+        test('btnIconOnlyAlert should have 1 icon span with alert and 1 empty label span', 3, function () {
+            var btn = Button.renderNode('#btnIconOnlyAlert'),
+                spans = btn.all('span'),
+                spanIcon = spans.item(0),
+                spanLabel = spans.item(1);
 
-                btn.destroy();
-            });
-            test('btnIconWithLabelCancel should have 1 icon span with cancel and 1 "Cancel" label span', 3, function () {
-                var btn = Button.renderNode('#btnIconWithLabelCancel'),
-                    spans = btn.all('span'),
-                    spanIcon = spans.item(0),
-                    spanLabel = spans.item(1);
+            equal(spans.size(), 2, '"spans.size()" should only equal 2');
+            equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-alert', '"spanIcon" should have "icon" and "alert" css classes');
+            equal(spanLabel.getContent(), '&nbsp;', '"spanLabel.getContent()" should equal "&nbsp;"');
 
-                equal(spans.size(), 2, '"spans.size()" should only equal 2');
-                equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-cancel', '"spanIcon" should have "icon" and "cancel" css classes');
-                equal(spanLabel.getContent(), 'Cancel', '"spanLabel.getContent()" should equal "Cancel"');
+            btn.destroy();
+        });
+        test('btnIconWithLabelCancel should have 1 icon span with cancel and 1 "Cancel" label span', 3, function () {
+            var btn = Button.renderNode('#btnIconWithLabelCancel'),
+                spans = btn.all('span'),
+                spanIcon = spans.item(0),
+                spanLabel = spans.item(1);
 
-                btn.destroy();
-            });    
-		
+            equal(spans.size(), 2, '"spans.size()" should only equal 2');
+            equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-cancel', '"spanIcon" should have "icon" and "cancel" css classes');
+            equal(spanLabel.getContent(), 'Cancel', '"spanLabel.getContent()" should equal "Cancel"');
+
+            btn.destroy();
+        });
     });
 });
