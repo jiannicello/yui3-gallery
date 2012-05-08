@@ -1,23 +1,17 @@
 YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
+    var CSS = {
+            DISABLED: 'yui3-icello-button-disabled',
+            VIEW_TYPES: {
+                ICON_ONLY: 'yui3-icello-button-icononly',
+                LABEL_ONLY: 'yui3-icello-button-labelonly',
+                ICON_WITH_LABEL: 'yui3-icello-button-iconwithlabel'
+            }
+        },
+        Button = Y.Icello.Button;
+
     Y.on('domready', function (e) {
         Y.log('', 'info', 'domready');
-        
-        var CSS = {
-                DISABLED: 'yui3-icello-button-disabled',
-				VIEW_TYPES: {
-					ICON_ONLY: 'yui3-icello-button-icononly',
-					LABEL_ONLY: 'yui3-icello-button-labelonly',
-					ICON_WITH_LABEL: 'yui3-icello-button-iconwithlabel'
-				}
-            },
-			Button = Y.Icello.Button,
-            hasClassIcon = function (btn, cssName) {
-                var cb = btn.get('contentBox');
-                var spanL = cb.all('span');
-                var item = spanL.item(0);
-                return item.hasClass(cssName);
-            };
-        
+
         module('getNode tests');
         test('no icon and text should throw an exception', 3, function () {
             var btn = null;
@@ -51,7 +45,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                 step(4, 'step 4: custom click handler that should only be called if button is enabled');
                 btn.destroy();
             });
-            
+
             step(1, 'step 1: simulate clicking button while it is disabled');
             btn.simulate('click');
 
@@ -88,75 +82,134 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
+        test('calling "enable" "disable" should affect node', 8, function () {
+            var node = Button.getNode({ label: 'Search', title: 'Search Rows' });
+
+            equal(node.get('disabled'), false, '"node" should start off "disabled" "false"');
+            ok(!node.hasClass(CSS.DISABLED), '"node" should start off not having css disabled');
+
+            step(1, 'step 1: call "disable()"');
+            node.disable();
+
+            equal(node.get('disabled'), true, '"node" should now have "disabled" "true"');
+            ok(node.hasClass(CSS.DISABLED), '"node" should now have css disabled');
+
+            step(2, 'step 2: call "enable()"');
+            node.enable();
+
+            equal(node.get('disabled'), false, '"node" should now have "disabled" "false"');
+            ok(!node.hasClass(CSS.DISABLED), '"node" should now not have css disabled');
+
+            node.destroy();
+        });
+        test('passing "disabled" "true" should make node disabled', 2, function () {
+            var node = Button.getNode({ label: 'Search', title: 'Search Rows', disabled: true });
+
+            equal(node.get('disabled'), true, '"node" should have "disabled" "true"');
+            ok(node.hasClass(CSS.DISABLED), '"node" should have css disabled');
+
+            node.destroy();
+        });
+        test('with "id" should have "id" attribute', 1, function () {
+            var node = Button.getNode({ label: 'Btn with id', id: 'btnSubmit' });
+
+            equal(node.get('id'), 'btnSubmit', '"id" should equal "btnSubmit"');
+
+            node.destroy();
+        });
+        test('button in memory node with label should only render label span', 2, function () {
+            var btn = Button.getNode({ label: 'Button label only' }),
+                spans = btn.all('span'),
+                span = spans.item(0);
+
+            equal(spans.size(), 1, '"spans.size()" should only equal 1');
+            equal(span.getContent(), 'Button label only', '"span" "content" should equal "Button label only"');
+
+            btn.destroy();
+        });
+        test('btnIconOnlyAlert in memory node should have 1 icon span with alert and 1 empty label span', 3, function () {
+            var btn = Button.getNode({icon:'alert'}),
+                spans = btn.all('span'),
+                spanIcon = spans.item(0),
+                spanLabel = spans.item(1);
+
+            equal(spans.size(), 2, '"spans.size()" should only equal 2');
+            equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-alert', '"spanIcon" should have "icon" and "alert" css classes');
+            equal(spanLabel.getContent(), '&nbsp;', '"spanLabel.getContent()" should equal "&nbsp;"');
+
+            btn.destroy();
+        });
+        test('btnIconWithLabelCancel in memory node should have 1 icon span with cancel and 1 "Cancel" label span', 3, function () {
+            var btn = Button.getNode({icon:'cancel', label:'Cancel'}),
+                spans = btn.all('span'),
+                spanIcon = spans.item(0),
+                spanLabel = spans.item(1);
+
+            equal(spans.size(), 2, '"spans.size()" should only equal 2');
+            equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-cancel', '"spanIcon" should have "icon" and "cancel" css classes');
+            equal(spanLabel.getContent(), 'Cancel', '"spanLabel.getContent()" should equal "Cancel"');
+
+            btn.destroy();
+        });
+            
+         module('renderNode tests');
+            test('disabled button in html should be disabled in node attribute', 1, function () {
+                var btn = Button.renderNode('#btnDisabled');
+
+                equal(btn.get('disabled'), true, '"disabled" attribute should be true');
+
+                btn.destroy();
+            });
+            test('button with html title should show up in node', 1, function () {
+                var btn = Button.renderNode('#btnWithTitle');
+
+                equal(btn.get('title'), 'My Title', '"btn" "title" should equal "My Title"');
+
+                btn.destroy();
+            });
+            test('button with no attributes defined should not have attributes set in node', 3, function () {
+                var btn = Button.renderNode(Y.one('.btn-with-no-attrs'));
+
+                equal(btn.hasAttribute('id'), false, '"btn" should not have "id" attr');
+                equal(btn.hasAttribute('title'), false, '"btn" should not have "title" attr');
+                equal(btn.get('disabled'), false, '"btn" should not be disabled');
+
+                btn.destroy();
+            });
+            test('button with label should only render label span', 2, function () {
+                var btn = Button.renderNode('#btnLabelOnly'),
+                    spans = btn.all('span'),
+                    span = spans.item(0);
+
+                equal(spans.size(), 1, '"spans.size()" should only equal 1');
+                equal(span.getContent(), 'Button label only', '"span" "content" should equal "Button label only"');
+
+                btn.destroy();
+            });
+            test('btnIconOnlyAlert should have 1 icon span with alert and 1 empty label span', 3, function () {
+                var btn = Button.renderNode('#btnIconOnlyAlert'),
+                    spans = btn.all('span'),
+                    spanIcon = spans.item(0),
+                    spanLabel = spans.item(1);
+
+                equal(spans.size(), 2, '"spans.size()" should only equal 2');
+                equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-alert', '"spanIcon" should have "icon" and "alert" css classes');
+                equal(spanLabel.getContent(), '&nbsp;', '"spanLabel.getContent()" should equal "&nbsp;"');
+
+                btn.destroy();
+            });
+            test('btnIconWithLabelCancel should have 1 icon span with cancel and 1 "Cancel" label span', 3, function () {
+                var btn = Button.renderNode('#btnIconWithLabelCancel'),
+                    spans = btn.all('span'),
+                    spanIcon = spans.item(0),
+                    spanLabel = spans.item(1);
+
+                equal(spans.size(), 2, '"spans.size()" should only equal 2');
+                equal(spanIcon.getAttribute('class'), 'yui3-icello-button-icon yui3-icello-button-icon-cancel', '"spanIcon" should have "icon" and "cancel" css classes');
+                equal(spanLabel.getContent(), 'Cancel', '"spanLabel.getContent()" should equal "Cancel"');
+
+                btn.destroy();
+            });    
 		
-		module('from html tests');
-		test('disabled button in html should be disabled in attribute', 1, function () {
-			var btn = new Button({ srcNode: '#btnDisabled' });
-			btn.render();
-
-			equal(btn.get('disabled'), true, '"disabled" attribute should be true');
-
-			btn.destroy();
-		});
-		test('disabled true in html but disabled false in constructor should result in disabled false', 1, function () {
-			var btn = new Button({ srcNode: '#btnDisabedHtmlEnabledConfig', disabled: false });
-			btn.render();
-
-			equal(btn.get('disabled'), false, '"disabled" attribute should be false');
-
-			btn.destroy();
-		});
-		test('enabled in html but disabled in config results in disabled', 1, function () {
-			var btn = new Button({ srcNode: '#btnEnabledHtmlDisabledConfig', disabled: true });
-			btn.render();
-
-			equal(btn.get('disabled'), true, '"disabled" attribute should be true');
-
-			btn.destroy();
-		});
-		test('button with html title should show up in contentBox', 3, function () {
-			var btn = new Button({ srcNode: '#btnWithTitle' });
-			btn.render();
-
-			equal(btn.get('contentBox').get('title'), 'My Title', '"contentBox" should equal "My Title"');
-
-			step(1, 'change "title" attribute to "Edit Title" and call syncUI');
-			btn.set('title', 'Edit Title');
-			btn.syncUI();
-
-			equal(btn.get('contentBox').get('title'), 'Edit Title', '"contentBox" should now equal "Edit Title"');
-
-			btn.destroy();
-		});
-		
-		module('node tests');
-		test('"getNodeLabelOnly" calling "enable" "disable" should affect node', 8, function () {
-			var node = Button.getNodeLabelOnly({ label: 'Search', title: 'Search Rows' });
-
-			equal(node.get('disabled'), false, '"node" should start off "disabled" "false"');
-			ok(!node.hasClass(CSS.DISABLED), '"node" should start off not having css disabled');
-
-			step(1, 'step 1: call "disable()"');
-			node.disable();
-
-			equal(node.get('disabled'), true, '"node" should now have "disabled" "true"');
-			ok(node.hasClass(CSS.DISABLED), '"node" should now have css disabled');
-
-			step(2, 'step 2: call "enable()"');
-			node.enable();
-
-			equal(node.get('disabled'), false, '"node" should now have "disabled" "false"');
-			ok(!node.hasClass(CSS.DISABLED), '"node" should now not have css disabled');
-
-			node.destroy();
-		});
-		test('"getNodeLabelOnly" passing "disabled" "true" should make node disabled', 2, function () {
-			var node = Button.getNodeLabelOnly({ label: 'Search', title: 'Search Rows', disabled: true });
-
-			equal(node.get('disabled'), true, '"node" should have "disabled" "true"');
-			ok(node.hasClass(CSS.DISABLED), '"node" should have css disabled');
-
-			node.destroy();
-		});
     });
 });
