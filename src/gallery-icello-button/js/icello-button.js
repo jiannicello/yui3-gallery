@@ -269,6 +269,8 @@ Button.getNode = function (cfg) {
     Y.log('', 'info', 'Button getNode');
     var n = null;
 
+    cfg = Y.merge(cfg);
+    
     if (cfg.label && !isVisibleString(cfg.label)) {
         cfg.label = null;
     }

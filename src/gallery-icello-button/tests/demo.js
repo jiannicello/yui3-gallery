@@ -36,8 +36,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                 Y.log('', 'info', 'Main onAllButtonsDspClick');
                 var btn = e.currentTarget,
                     data = btn.getData(),
-                    newBtn = null,
-                    cfg = {};
+                    newBtn = null;
 
                 if (data.label === '') {
                     data.label = data.icon;
@@ -45,8 +44,7 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
                     data.label = '';
                 }
 
-                Y.mix(cfg, data);
-                newBtn = Button.getNode(cfg);
+                newBtn = Button.getNode(data);
                 newBtn.setData(data);
 
                 this.input.allButtons[data.index] = newBtn;

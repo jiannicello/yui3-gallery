@@ -271,6 +271,8 @@ Button.getNode = function (cfg) {
     Y.log('', 'info', 'Button getNode');
     var n = null;
 
+    cfg = Y.merge(cfg);
+    
     if (cfg.label && !isVisibleString(cfg.label)) {
         cfg.label = null;
     }
@@ -340,4 +342,5 @@ Button.renderNode = function (srcNode) {
 Y.Icello.Button = Button;
 
 
-}, '@VERSION@' ,{requires:['base-build', 'widget'], skinnable:true});
+
+}, '@VERSION@' ,{skinnable:true, requires:['base-build', 'widget']});
