@@ -151,6 +151,15 @@ YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
 
             btn.destroy();
         });
+        test('cfg icon and label not altered', 2, function () {
+            var cfg = {icon: 'alert', label: ' '},
+                btn = Button.getNode(cfg);
+
+            equal(cfg.icon, 'alert', '"cfg.icon" should remain equal to "alert"');
+            equal(cfg.label, ' ', '"cfg.label" should remain equal to " "');
+
+            btn.destroy();
+        });
 
         module('renderNode tests');
         test('disabled button in html should be disabled in node attribute', 1, function () {

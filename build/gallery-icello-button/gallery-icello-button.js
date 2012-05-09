@@ -340,5 +340,4 @@ Button.renderNode = function (srcNode) {
 Y.Icello.Button = Button;
 
 
-
-}, '@VERSION@' ,{skinnable:true, requires:['base-build', 'widget']});
+}, '@VERSION@' ,{requires:['classnamemanager', 'node'], skinnable:true});
