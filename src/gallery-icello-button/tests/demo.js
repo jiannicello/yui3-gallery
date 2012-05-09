@@ -1,6 +1,6 @@
 var main = null;
 
-YUI().use('gallery-icello-button', 'node-event-simulate', function (Y) {
+YUI().use('gallery-icello-button', 'selector-css3', 'node-event-simulate', function (Y) {
     'use strict';
 
     var Button = Y.Icello.Button,
