@@ -36,6 +36,12 @@ var BASENAME = 'icello-button',
 			'</button>'
 		]
 	},
+    /** 
+    * A button node generator with icons from jQuery themeroller
+    *
+    * @class Button
+    * @namespace Icello
+    */
     Button = function () {},
     Node = Y.Node,
     Lang = Y.Lang,
@@ -267,11 +273,20 @@ Y.namespace('Icello');
 
 Button.ICONS = ICONS;
 
+/** 
+* Creates and returns a button node object in memory
+*
+* @method getNode
+* @static
+* 
+* @param {Object} cfg configuration object of attributes
+* @return {Node} 
+*/
 Button.getNode = function (cfg) {
     var n = null;
 
     cfg = Y.merge(cfg);
-    
+
     if (cfg.label && !isVisibleString(cfg.label)) {
         cfg.label = null;
     }
@@ -291,6 +306,15 @@ Button.getNode = function (cfg) {
 
     return n;
 };
+/**
+* Renders a button node from an html button source
+* 
+* @method renderNode
+* @static
+* 
+* @param {Node | String} srcNode
+* @return {Node} returns new node that replaces `srcNode`
+*/
 Button.renderNode = function (srcNode) {
     var node = srcNode,
         cfg = null,
