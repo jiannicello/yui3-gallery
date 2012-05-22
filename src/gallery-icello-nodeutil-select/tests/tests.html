@@ -26,20 +26,28 @@
     <div id="qunit-fixture">test markup, will be hidden</div>
     
     <form>
-        <div>
-        <select id="ddl"></select>
-        </div>
-        <div>
-            <select id="ddlMarkup">
-                <option value="">Please Select</option>
-                <option value="1">One</option>
-                <option value="2" selected>Two</option>
-            </select>
-        </div>
-        <div>
-            <div id="output"></div>
-        </div>
-    </form>
+		<div>
+		<select id="ddl"></select>
+		</div>
+		<div>
+			<select id="ddlMarkup">
+				<option value="">Please Select</option>
+				<option value="1">One</option>
+				<option value="2" selected>Two</option>
+			</select>
+
+			<select id="ddlMarkupMultiple" multiple>
+				<option value="">Please Select</option>
+				<option value="1">One</option>
+				<option value="2" selected>Two</option>
+				<option value="3">Three</option>
+				<option value="4" selected>Four</option>
+			</select>
+		</div>
+		<div>
+			<div id="output"></div>
+		</div>
+	</form>
     <br /><br />
     
 <script src="config.js"></script>

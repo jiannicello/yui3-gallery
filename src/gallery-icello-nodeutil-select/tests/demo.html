@@ -13,28 +13,37 @@
 
 <form>
 
-<div>
-    Single Select:<br />
-    <select id="ddl">
-        <option>Please Select</option>
-        <option>Yankees</option>
-        <option>Mets</option>
-    </select>
-</div>
+    <div>
+        Single Select:<br />
+        <select id="ddl"></select>
+    </div>
 
-<div>
-    Multi Select:<br />
-    <select id="box" multiple>
-        <option value="billevans">Bill Evans</option>
-        <option value="milesdavis">Miles Davis</option>
-        <option value="joez">Joe Zawinal</option>
-        <option value="waynes">Wayne Shorter</option>
+    <div>
+        Multi Select:<br />
+        <select id="box" multiple>
+            <option value="billevans">Bill Evans</option>
+            <option value="milesdavis" selected="selected">Miles Davis</option>
+            <option value="joez">Joe Zawinal</option>
+            <option value="waynes" selected="selected">Wayne Shorter</option>
+        </select>
+    </div>
+    <br />
+    Job Type: <select id="ddlJobType">
+        <option value="">Please Select</option>
+        <option value="1">Co-op</option>
+        <option value="2">Corporate</option>
+        <option value="3">BusinessDevelopment</option>
     </select>
-</div>
-<br />
-<div>
-    <div id="output"></div>
-</div>
+    <br />
+    Text Only: <select id="ddlTextOnly">
+        <option>Please Select</option>
+        <option>One</option>
+        <option>Two</option>
+        <option>Three</option>
+    </select>
+    <div>
+        <div id="output"></div>
+    </div>
 
 </form>
 
